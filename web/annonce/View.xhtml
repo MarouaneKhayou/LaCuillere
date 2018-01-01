@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AnnonceViewDlg" widgetVar="AnnonceViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAnnonceTitle}">
+            <h:form id="AnnonceViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{annonceController.selected != null}">
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_user}"/>
+                        <h:outputText value="#{annonceController.selected.user}" title="#{bundle.ViewAnnonceTitle_user}"/>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_startDate}"/>
+                        <h:outputText value="#{annonceController.selected.startDate}" title="#{bundle.ViewAnnonceTitle_startDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_nbrDays}"/>
+                        <h:outputText value="#{annonceController.selected.nbrDays}" title="#{bundle.ViewAnnonceTitle_nbrDays}"/>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_phone}"/>
+                        <h:outputText value="#{annonceController.selected.phone}" title="#{bundle.ViewAnnonceTitle_phone}"/>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_mail}"/>
+                        <h:outputText value="#{annonceController.selected.mail}" title="#{bundle.ViewAnnonceTitle_mail}"/>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_reduction}"/>
+                        <h:outputText value="#{annonceController.selected.reduction}" title="#{bundle.ViewAnnonceTitle_reduction}"/>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_state}"/>
+                        <h:outputText value="#{annonceController.selected.state}" title="#{bundle.ViewAnnonceTitle_state}"/>
+                        <h:outputText value="#{bundle.ViewAnnonceLabel_id}"/>
+                        <h:outputText value="#{annonceController.selected.id}" title="#{bundle.ViewAnnonceTitle_id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="AnnonceViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

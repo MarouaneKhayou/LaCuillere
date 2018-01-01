@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RestaurantEditDlg" widgetVar="RestaurantEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditRestaurantTitle}">
+            <h:form id="RestaurantEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{restaurantController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_category}" for="category" />
+                        <p:selectOneMenu id="category" value="#{restaurantController.selected.category}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"
+                                           var="categoryItem"
+                                           itemValue="#{categoryItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{restaurantController.selected.name}" title="#{bundle.EditRestaurantTitle_name}" />
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_address}" for="address" />
+                        <p:inputText id="address" value="#{restaurantController.selected.address}" title="#{bundle.EditRestaurantTitle_address}" />
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{restaurantController.selected.phone}" title="#{bundle.EditRestaurantTitle_phone}" />
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{restaurantController.selected.mail}" title="#{bundle.EditRestaurantTitle_mail}" />
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{restaurantController.selected.description}" title="#{bundle.EditRestaurantTitle_description}" />
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_user}" for="user" />
+                        <p:selectOneMenu id="user" value="#{restaurantController.selected.user}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
+                                           var="userItem"
+                                           itemValue="#{userItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_city}" for="city" />
+                        <p:selectOneMenu id="city" value="#{restaurantController.selected.city}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cityController.itemsAvailableSelectOne}"
+                                           var="cityItem"
+                                           itemValue="#{cityItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditRestaurantLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{restaurantController.selected.id}" title="#{bundle.EditRestaurantTitle_id}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{restaurantController.update}" value="#{bundle.Save}" update="display,:RestaurantListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RestaurantEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RestaurantEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MenuCreateDlg" widgetVar="MenuCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMenuTitle}">
+            <h:form id="MenuCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{menuController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMenuLabel_type}" for="type" />
+                        <p:selectOneMenu id="type" value="#{menuController.selected.type}" >
+                            <f:selectItems value="#{typeController.itemsAvailableSelectOne}"
+                                           var="typeItem"
+                                           itemValue="#{typeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMenuLabel_restaurant}" for="restaurant" />
+                        <p:selectOneMenu id="restaurant" value="#{menuController.selected.restaurant}" >
+                            <f:selectItems value="#{restaurantController.itemsAvailableSelectOne}"
+                                           var="restaurantItem"
+                                           itemValue="#{restaurantItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMenuLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{menuController.selected.name}" title="#{bundle.CreateMenuTitle_name}" />
+                        <p:outputLabel value="#{bundle.CreateMenuLabel_price}" for="price" />
+                        <p:inputText id="price" value="#{menuController.selected.price}" title="#{bundle.CreateMenuTitle_price}" />
+                        <p:outputLabel value="#{bundle.CreateMenuLabel_produits}" for="produits" />
+                        <p:inputText id="produits" value="#{menuController.selected.produits}" title="#{bundle.CreateMenuTitle_produits}" />
+                        <p:outputLabel value="#{bundle.CreateMenuLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{menuController.selected.id}" title="#{bundle.CreateMenuTitle_id}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{menuController.create}" value="#{bundle.Save}" update="display,:MenuListForm:datalist,:growl" oncomplete="handleSubmit(args,'MenuCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MenuCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
