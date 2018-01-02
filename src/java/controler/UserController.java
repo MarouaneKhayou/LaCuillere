@@ -27,11 +27,24 @@ public class UserController implements Serializable {
     private service.UserFacade ejbFacade;
     private List<User> items = null;
     private User selected;
+    private String pass2;
+
+    public String getPass2() {
+        pass2 = "";
+        return pass2;
+    }
+
+    public void setPass2(String pass2) {
+        this.pass2 = pass2;
+    }
 
     public UserController() {
     }
 
     public User getSelected() {
+        if (selected == null) {
+            selected = new User();
+        }
         return selected;
     }
 
@@ -56,7 +69,7 @@ public class UserController implements Serializable {
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
+        persist(PersistAction.CREATE, "Utilisateur crée avec success");
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
@@ -85,12 +98,22 @@ public class UserController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != PersistAction.DELETE) {
+                if (persistAction == PersistAction.CREATE) {
+                    if (pass2.equals(selected.getPassword())) {
+                        int res = getFacade().createNormalUser(selected);
+                        if (res == -1) {
+                            JsfUtil.addErrorMessage("Email saisie déja existant!");
+                        } else if (res == 1) {
+                            JsfUtil.addSuccessMessage(successMessage);
+                        }
+                    } else {
+                        JsfUtil.addErrorMessage("Les deux mots de passe doivent se correspondre");
+                    }
+                } else if (persistAction == PersistAction.UPDATE) {
                     getFacade().edit(selected);
-                } else {
+                } else if (persistAction == PersistAction.DELETE) {
                     getFacade().remove(selected);
                 }
-                JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();

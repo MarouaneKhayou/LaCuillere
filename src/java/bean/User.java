@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -29,6 +30,7 @@ public class User implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
+    @Email(message = "Format du mail non respecté")
     private String mail;
     private String password;
     private String phone;

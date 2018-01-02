@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body> 
+        <div class="ui-grid ui-grid-responsive">
+            <p:growl id="growl" life="3000" />
+
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12" >
+                    <p:panel header="Créer un compte" style="width:  fit-content; margin: auto; margin-top: 2%; 
+                             margin-bottom: 5%; box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+                        <h:form style="width:500px;"> 
+                            <p:growl id="message"></p:growl>
+                            <p:tabView activeIndex="0" dynamic="false">
+                                <p:tab title="Compte utilisateur">
+                                    <ui:include src="userAccount.xhtml"/>                             
+                                </p:tab> 
+                                <p:tab title="Compte restaurateur">
+                                    <p:outputLabel value="#{tabViewManagedBean.messageNum2}"></p:outputLabel>
+                                </p:tab>
+                            </p:tabView>
+                        </h:form>
+                    </p:panel>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+
