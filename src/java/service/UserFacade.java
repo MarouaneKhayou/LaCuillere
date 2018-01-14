@@ -7,9 +7,11 @@ package service;
 
 import bean.User;
 import controler.util.PasswordUtil;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.SessionUtil;
 
 /**
  *
@@ -30,6 +32,20 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
 
+    public int connexion(String mail, String password) {
+        User user = new User();
+        user.setMail(mail);
+        user.setPassword(password);
+        User loadedUser = getUserByMail(mail);
+        if (loadedUser != null) {
+            if (PasswordUtil.getHashedPassword(password).equals(loadedUser.getPassword())) {
+                SessionUtil.registerUser(loadedUser);
+                return 1;
+            }
+        }
+        return -1;
+    }
+
     public int createNormalUser(User user) {
         if (ifMailExists(user.getMail())) {
             return -1;
@@ -41,9 +57,15 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     public boolean ifMailExists(String email) {
-        if (em.createQuery("SELECT u FROM User u WHERE u.mail='" + email + "'").getResultList().isEmpty()) {
-            return false;
+        return getUserByMail(email) != null;
+    }
+
+    public User getUserByMail(String email) {
+        List<User> res = em.createQuery("SELECT u FROM User u WHERE u.mail='" + email + "'").getResultList();
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res.get(0);
         }
-        return true;
     }
 }

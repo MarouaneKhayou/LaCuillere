@@ -4,6 +4,7 @@ import bean.Restaurant;
 import bean.User;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
+import java.io.IOException;
 import service.UserFacade;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import util.SessionUtil;
 
 @Named("userController")
 @SessionScoped
@@ -34,6 +36,52 @@ public class UserController implements Serializable {
     private String pass2;
     private boolean isRestarantFormShown;
     private Restaurant restaurant;
+    private String login;
+    private String password;
+
+    public boolean isUserConnected() {
+        System.out.println("aaaaaaaszzzz");
+        return getConnectedUser() != null;
+    }
+
+    public void goLogin() throws IOException {
+        SessionUtil.goLogin();
+    }
+
+    public void deconnexion() throws IOException {
+        SessionUtil.deconnexion();
+        SessionUtil.goHome();
+    }
+
+    public void connexion() throws IOException {
+        int res = getFacade().connexion(login, password);
+        if (res == 1) {
+            JsfUtil.addSuccessMessage("Connexion reussi!");
+            SessionUtil.redirect("home");
+        } else {
+            JsfUtil.addErrorMessage("Email ou mot de passe incorrect");
+        }
+    }
+
+    public User getConnectedUser() {
+        return SessionUtil.getConnectedUser();
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Restaurant getRestaurant() {
         if (restaurant == null) {
