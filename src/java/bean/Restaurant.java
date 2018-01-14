@@ -11,9 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -29,17 +31,16 @@ public class Restaurant implements Serializable {
     private String name;
     private String address;
     private String phone;
+    @Email(message = "Format du mail non respecté")
     private String mail;
     private String description;
 
-    @OneToOne(mappedBy = "restaurant")
-    private User user;
     @OneToMany(mappedBy = "restaurant")
     private List<Menu> menus;
     @ManyToOne
     private City city;
-    @ManyToOne
-    private Category category;
+    @ManyToMany
+    private List<Category> categorys;
 
     public List<Menu> getMenus() {
         return menus;
@@ -49,12 +50,12 @@ public class Restaurant implements Serializable {
         this.menus = menus;
     }
 
-    public Category getCategory() {
-        return category;
+    public List<Category> getCategorys() {
+        return categorys;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategorys(List<Category> categorys) {
+        this.categorys = categorys;
     }
 
     public String getName() {
@@ -95,14 +96,6 @@ public class Restaurant implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public City getCity() {

@@ -1,5 +1,6 @@
 package controler;
 
+import bean.Restaurant;
 import bean.User;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -25,17 +27,56 @@ public class UserController implements Serializable {
 
     @EJB
     private service.UserFacade ejbFacade;
+    @EJB
+    private service.RestaurantFacade restaurantFacade;
     private List<User> items = null;
     private User selected;
     private String pass2;
+    private boolean isRestarantFormShown;
+    private Restaurant restaurant;
+
+    public Restaurant getRestaurant() {
+        if (restaurant == null) {
+            restaurant = new Restaurant();
+        }
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 
     public String getPass2() {
         pass2 = "";
         return pass2;
     }
 
+    @PostConstruct
+    public void intiIsShown() {
+        this.isRestarantFormShown = false;
+    }
+
     public void setPass2(String pass2) {
         this.pass2 = pass2;
+    }
+
+    public boolean isIsRestarantFormShown() {
+        return isRestarantFormShown;
+    }
+
+    public void setIsRestarantFormShown(boolean isRestarantFormShown) {
+        this.isRestarantFormShown = isRestarantFormShown;
+    }
+
+    public void setShowRestarantForm(boolean showRestarantForm) {
+        if (showRestarantForm == false) {
+            restaurant = new Restaurant();
+        }
+        this.isRestarantFormShown = showRestarantForm;
+    }
+
+    public void showRestarantForm() {
+        System.out.println(isRestarantFormShown);
     }
 
     public UserController() {
@@ -68,8 +109,15 @@ public class UserController implements Serializable {
         return selected;
     }
 
+    public String hello() {
+        System.out.println("marouane eeeeeeeeeeee");
+        return "aa";
+
+    }
+
     public void create() {
-        persist(PersistAction.CREATE, "Utilisateur crée avec success");
+        System.out.println("nnnnnnnnnnnnnnnnnnn");
+        persist(PersistAction.CREATE, "Compte crée avec success");
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
@@ -104,7 +152,17 @@ public class UserController implements Serializable {
                         if (res == -1) {
                             JsfUtil.addErrorMessage("Email saisie déja existant!");
                         } else if (res == 1) {
+                            if (isRestarantFormShown) {
+                                restaurantFacade.create(restaurant);
+
+                                selected.setProfil("R");
+                                selected.setRestaurant(restaurant);
+                                getFacade().edit(selected);
+                            }
+                            restaurant = new Restaurant();
+                            selected = new User();
                             JsfUtil.addSuccessMessage(successMessage);
+                            util.SessionUtil.redirect("login");
                         }
                     } else {
                         JsfUtil.addErrorMessage("Les deux mots de passe doivent se correspondre");
