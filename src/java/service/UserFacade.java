@@ -32,6 +32,37 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
 
+    public int changeUserPassword(User user, String recentPassword, String newPassword) {
+        if (PasswordUtil.getHashedPassword(recentPassword).equals(user.getPassword())) {
+            user.setPassword(PasswordUtil.getHashedPassword(newPassword));
+            edit(user);
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    public int updateUserInformation(User user, String firstName, String lastName, String mail, String phone) {
+        String req = "U";
+        if (!firstName.equals("")) {
+            user.setFirstName(firstName);
+        }
+        if (!lastName.equals("")) {
+            user.setLastName(lastName);
+        }
+        if (!phone.equals("")) {
+            user.setPhone(phone);
+        }
+        if (!mail.equals("")) {
+            if (ifMailExists(mail)) {
+                return -1;
+            }
+            user.setMail(mail);
+        }
+        edit(user);
+        return 1;
+    }
+
     public int connexion(String mail, String password) {
         User user = new User();
         user.setMail(mail);

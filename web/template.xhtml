@@ -33,13 +33,14 @@
                             <p:menuitem value="Type" outcome="/type/List.xhtml" />
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>   
+                        <p:menuitem value="Mon profil" rendered="#{userController.isUserConnected()}" outcome="/profil" icon="ui-icon-home"/>
                         <f:facet name="options">
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserConnected()}" value="Bonjour Mr/Mme. 
                                           (#{userController.getConnectedUser().firstName} #{userController.getConnectedUser().lastName}) | "/>
                             <p:commandButton rendered="#{userController.isUserConnected()}" actionListener="#{userController.deconnexion()}"  value="Logout" icon="ui-icon-extlink" />
 
                             <p:commandButton rendered="#{not userController.isUserConnected()}" actionListener="#{userController.goLogin}"  value="Login" icon="ui-icon-extlink" />
-                        </f:facet>
+                        </f:facet> 
                     </p:menubar>
                 </h:form>
             </p:layoutUnit>

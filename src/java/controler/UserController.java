@@ -39,8 +39,46 @@ public class UserController implements Serializable {
     private String login;
     private String password;
 
+    private String recentPassword;
+    private String newPassword;
+    private String repeatPassword;
+
+    private User newUser;
+
+    public void changePassword() {
+        if (newPassword.equals(repeatPassword)) {
+            int res = getFacade().changeUserPassword(getConnectedUser(), recentPassword, newPassword);
+            if (res == -1) {
+                JsfUtil.addErrorMessage("Ancien mot de passe incorrect");
+            } else if (res == 1) {
+                JsfUtil.addErrorMessage("Mot de passe modifié avec success");
+                newPassword = "";
+                recentPassword = "";
+                repeatPassword = "";
+            }
+        } else {
+            JsfUtil.addErrorMessage("Les deux mots de passe doivent se correpondre");
+        }
+    }
+
+    public void updateUserInformation() {
+        System.out.println(newUser.getFirstName());
+        if (newUser.getFirstName().equals("") & newUser.getLastName().equals("") & newUser.getPhone().equals("")
+                & newUser.getMail().equals("")) {
+            JsfUtil.addErrorMessage("Veuillez indroduire des informations");
+        } else {
+            int res = getFacade().updateUserInformation(getConnectedUser(), newUser.getFirstName(), newUser.getLastName(),
+                    newUser.getMail(), newUser.getPhone());
+            if (res == -1) {
+                JsfUtil.addErrorMessage("Le mail saisie déjà existant");
+            } else if (res == 1) {
+                JsfUtil.addSuccessMessage("Information modifiées avec success");
+                newUser = new User();
+            }
+        }
+    }
+
     public boolean isUserConnected() {
-        System.out.println("aaaaaaaszzzz");
         return getConnectedUser() != null;
     }
 
@@ -61,6 +99,41 @@ public class UserController implements Serializable {
         } else {
             JsfUtil.addErrorMessage("Email ou mot de passe incorrect");
         }
+    }
+
+    public String getRecentPassword() {
+        return recentPassword;
+    }
+
+    public void setRecentPassword(String recentPassword) {
+        this.recentPassword = recentPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+
+    public User getNewUser() {
+        if (newUser == null) {
+            newUser = new User();
+        }
+        return newUser;
+    }
+
+    public void setNewUser(User newUser) {
+        this.newUser = newUser;
     }
 
     public User getConnectedUser() {

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Mon profile"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <p:tabView>
+                <p:tab id="tabView" title="Informations">
+                    <p:panel id="modifyPanel" >
+                        <h:form>
+                            <p:messages />
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <p:outputLabel value="Nom: " for="firstName" />
+                                <p:inputText id="firstName" placeholder="#{userController.connectedUser.firstName}" value="#{userController.newUser.firstName}" title="#{bundle.CreateUserTitle_firstName}" />
+
+                                <p:outputLabel value="Prénom: " for="lastName" />
+                                <p:inputText id="lastName" placeholder="#{userController.connectedUser.lastName}" value="#{userController.newUser.lastName}" title="#{bundle.CreateUserTitle_lastName}" />
+
+                                <p:outputLabel value="Email: " for="mail" />
+                                <p:inputText id="mail" placeholder="#{userController.connectedUser.mail}" value="#{userController.newUser.mail}" title="#{bundle.CreateUserTitle_mail}" />
+
+                                <p:outputLabel value="Mobile: " for="phone" />
+                                <p:inputText id="phone" placeholder="#{userController.connectedUser.phone}" value="#{userController.newUser.phone}" title="#{bundle.CreateUserTitle_phone}" />
+
+                                <f:facet name="footer">
+                                    <p:commandButton actionListener="#{userController.updateUserInformation()}" id="submitButton" value="Valider" update=":menuForm, @(form)" /> 
+                                </f:facet>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel> 
+                </p:tab>
+                <p:tab title="Mot de passe">
+                    <p:panel id="passwordModifyPanel" >
+                        <h:form>
+                            <p:messages />
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <p:outputLabel value="Ancien mot de passe: " for="lastPassword" />
+                                <p:password id="lastPassword" required="true" value="#{userController.recentPassword}"  />
+
+                                <p:outputLabel value="Nouveau mot de passe: " for="newPassword" />
+                                <p:password id="newPassword" required="true" value="#{userController.newPassword}"  />
+ 
+                                <p:outputLabel value="Répeter le mot de passe: " for="repeatPassword" />
+                                <p:password id="repeatPassword" required="true" value="#{userController.repeatPassword}" />
+
+                                <f:facet name="footer">
+                                    <p:commandButton actionListener="#{userController.changePassword()}" id="passwordButton" value="Valider" update="@(form)" /> 
+                                </f:facet>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel> 
+                </p:tab>
+            </p:tabView>
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>
