@@ -34,6 +34,8 @@ public class Restaurant implements Serializable {
     @Email(message = "Format du mail non respecté")
     private String mail;
     private String description;
+    private Integer openingHour;
+    private Integer closingHour;
 
     @OneToMany(mappedBy = "restaurant")
     private List<Menu> menus;
@@ -41,6 +43,22 @@ public class Restaurant implements Serializable {
     private City city;
     @ManyToMany
     private List<Category> categorys;
+
+    public Integer getOpeningHour() {
+        return openingHour;
+    }
+
+    public void setOpeningHour(Integer openingHour) {
+        this.openingHour = openingHour;
+    }
+
+    public Integer getClosingHour() {
+        return closingHour;
+    }
+
+    public void setClosingHour(Integer closingHour) {
+        this.closingHour = closingHour;
+    }
 
     public List<Menu> getMenus() {
         return menus;

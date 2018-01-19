@@ -54,8 +54,8 @@
                     <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Ville: " for="city" />
                     <p:selectOneMenu rendered="#{userController.isRestarantFormShown}" id="city" value="#{userController.restaurant.city}" >
                         <f:selectItems value="#{cityController.itemsAvailableSelectOne}"
-                                       var="cityItem"
-                                       itemValue="#{cityItem.id}"/>
+                                       var="cityItem" itemLabel="#{cityItem.name}"
+                                       itemValue="#{cityItem}"/>
                     </p:selectOneMenu>
                     
                     <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />

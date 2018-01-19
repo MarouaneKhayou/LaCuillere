@@ -25,12 +25,21 @@ public class AnnonceItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int hour;
+    private int annonceItemHour;
+    private int dayNumber;
 
     @ManyToOne
     private Annonce annonce;
     @OneToMany(mappedBy = "annonceItem")
     private List<Reservation> reservations;
+
+    public int getDayNumber() {
+        return dayNumber;
+    }
+
+    public void setDayNumber(int dayNumber) {
+        this.dayNumber = dayNumber;
+    }
 
     public List<Reservation> getReservations() {
         return reservations;
@@ -48,12 +57,12 @@ public class AnnonceItem implements Serializable {
         this.annonce = annonce;
     }
 
-    public int getHour() {
-        return hour;
+    public int getAnnonceItemHour() {
+        return annonceItemHour;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setAnnonceItemHour(int annonceItemHour) {
+        this.annonceItemHour = annonceItemHour;
     }
 
     public Long getId() {
