@@ -45,6 +45,13 @@ public class UserController implements Serializable {
 
     private User newUser;
 
+    public boolean isUserRestaurant() {
+        if (getConnectedUser() != null) {
+            return getConnectedUser().getProfil().equals("R");
+        }
+        return false;
+    }
+
     public void changePassword() {
         if (newPassword.equals(repeatPassword)) {
             int res = getFacade().changeUserPassword(getConnectedUser(), recentPassword, newPassword);

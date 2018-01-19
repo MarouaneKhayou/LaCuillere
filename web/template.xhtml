@@ -34,6 +34,7 @@
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>   
                         <p:menuitem value="Mon profil" rendered="#{userController.isUserConnected()}" outcome="/profil" icon="ui-icon-home"/>
+                        <p:menuitem value="Mon restaurant" rendered="#{userController.isUserRestaurant()}" outcome="/profil" icon="ui-icon-home"/>
                         <f:facet name="options">
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserConnected()}" value="Bonjour Mr/Mme. 
                                           (#{userController.getConnectedUser().firstName} #{userController.getConnectedUser().lastName}) | "/>
