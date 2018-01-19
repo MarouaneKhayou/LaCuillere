@@ -44,6 +44,12 @@ public class UserFacade extends AbstractFacade<User> {
 
     public int updateUserInformation(User user, String firstName, String lastName, String mail, String phone) {
         String req = "U";
+        if (!mail.equals("")) {
+            if (ifMailExists(mail)) {
+                return -1;
+            }
+            user.setMail(mail);
+        }
         if (!firstName.equals("")) {
             user.setFirstName(firstName);
         }
@@ -52,12 +58,6 @@ public class UserFacade extends AbstractFacade<User> {
         }
         if (!phone.equals("")) {
             user.setPhone(phone);
-        }
-        if (!mail.equals("")) {
-            if (ifMailExists(mail)) {
-                return -1;
-            }
-            user.setMail(mail);
         }
         edit(user);
         return 1;
