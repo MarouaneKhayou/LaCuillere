@@ -6,6 +6,9 @@
 package service;
 
 import bean.Annonce;
+import bean.Restaurant;
+import bean.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +31,9 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
     public AnnonceFacade() {
         super(Annonce.class);
     }
-    
+
+    public List<Annonce> getRestaurantAnnonces(Long id) {
+        List<Annonce> res = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + id).getResultList();
+        return res;
+    }
 }
