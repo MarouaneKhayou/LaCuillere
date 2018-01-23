@@ -41,8 +41,8 @@ public class Restaurant implements Serializable {
     private List<Menu> menus;
     @ManyToOne
     private City city;
-    @ManyToMany
-    private List<Category> categorys;
+    @ManyToOne
+    private Category category;
 
     public Integer getOpeningHour() {
         return openingHour;
@@ -68,12 +68,12 @@ public class Restaurant implements Serializable {
         this.menus = menus;
     }
 
-    public List<Category> getCategorys() {
-        return categorys;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategorys(List<Category> categorys) {
-        this.categorys = categorys;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getName() {

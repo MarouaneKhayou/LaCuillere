@@ -27,7 +27,7 @@ public class Category implements Serializable {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "categorys")
+    @OneToMany(mappedBy = "category")
     private List<Restaurant> restaurants;
 
     public List<Restaurant> getRestaurants() {
