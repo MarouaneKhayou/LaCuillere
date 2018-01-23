@@ -1,5 +1,7 @@
 package controler;
 
+import bean.Category;
+import bean.City;
 import bean.Restaurant;
 import bean.User;
 import controler.util.JsfUtil;
@@ -7,6 +9,7 @@ import controler.util.JsfUtil.PersistAction;
 import service.RestaurantFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,7 +27,7 @@ import service.UserFacade;
 @Named("restaurantController")
 @SessionScoped
 public class RestaurantController implements Serializable {
-    
+
     @EJB
     private service.RestaurantFacade ejbFacade;
     @EJB
@@ -33,64 +36,105 @@ public class RestaurantController implements Serializable {
     private Restaurant selected;
     private User user;
     private String pass2;
-    
+
+    private String nameRestaurant;
+    private Date dateAnnonce;
+    private Category category;
+    private City city;
+
+    private void searchAnnonce() {
+        
+    }
+
+    public String getNameRestaurant() {
+        return nameRestaurant;
+    }
+
+    public void setNameRestaurant(String nameRestaurant) {
+        this.nameRestaurant = nameRestaurant;
+    }
+
+    public Date getDateAnnonce() {
+        return dateAnnonce;
+    }
+
+    public void setDateAnnonce(Date dateAnnonce) {
+        this.dateAnnonce = dateAnnonce;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     public RestaurantController() {
     }
-    
+
     public UserFacade getUserFacade() {
         return userFacade;
     }
-    
+
     public void setUserFacade(UserFacade userFacade) {
         this.userFacade = userFacade;
     }
-    
+
     public String getPass2() {
         return pass2;
     }
-    
+
     public void setPass2(String pass2) {
         this.pass2 = pass2;
     }
-    
+
     public User getUser() {
         if (user == null) {
             user = new User();
         }
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public Restaurant getSelected() {
         if (selected == null) {
             selected = new Restaurant();
         }
         return selected;
     }
-    
+
     public void setSelected(Restaurant selected) {
         this.selected = selected;
     }
-    
+
     protected void setEmbeddableKeys() {
     }
-    
+
     protected void initializeEmbeddableKey() {
     }
-    
+
     private RestaurantFacade getFacade() {
         return ejbFacade;
     }
-    
+
     public Restaurant prepareCreate() {
         selected = new Restaurant();
         initializeEmbeddableKey();
         return selected;
     }
-    
+
     public void create() {
         System.out.println("ssssssssss");
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("RestaurantCreated"));
@@ -98,11 +142,11 @@ public class RestaurantController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("RestaurantUpdated"));
     }
-    
+
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("RestaurantDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -110,16 +154,16 @@ public class RestaurantController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
     public List<Restaurant> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
-    
+
     private void persist(PersistAction persistAction, String successMessage) {
-            setEmbeddableKeys();
+        setEmbeddableKeys();
 //            try {
 //                if (persistAction == PersistAction.CREATE) {
 //                    if (pass2.equals(user.getPassword())) {
@@ -157,22 +201,22 @@ public class RestaurantController implements Serializable {
 //                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
 //            }
     }
-    
+
     public Restaurant getRestaurant(java.lang.Long id) {
         return getFacade().find(id);
     }
-    
+
     public List<Restaurant> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
-    
+
     public List<Restaurant> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-    
+
     @FacesConverter(forClass = Restaurant.class)
     public static class RestaurantControllerConverter implements Converter {
-        
+
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -182,19 +226,19 @@ public class RestaurantController implements Serializable {
                     getValue(facesContext.getELContext(), null, "restaurantController");
             return controller.getRestaurant(getKey(value));
         }
-        
+
         java.lang.Long getKey(String value) {
             java.lang.Long key;
             key = Long.valueOf(value);
             return key;
         }
-        
+
         String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
         }
-        
+
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
@@ -208,7 +252,7 @@ public class RestaurantController implements Serializable {
                 return null;
             }
         }
-        
+
     }
-    
+
 }

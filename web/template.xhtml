@@ -34,13 +34,13 @@
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>   
                         <p:menuitem value="Mon profil" rendered="#{userController.isUserConnected()}" outcome="/profil" icon="ui-icon-home"/>
-                        <p:menuitem value="Mon restaurant" rendered="#{userController.isUserRestaurant()}" outcome="/profil" icon="ui-icon-home"/>
+                        <p:menuitem value="Mon restaurant" rendered="#{userController.isUserRestaurant()}" outcome="/restaurantSpace" icon="ui-icon-home"/>
                         <f:facet name="options">
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserConnected()}" value="Bonjour Mr/Mme. 
                                           (#{userController.getConnectedUser().firstName} #{userController.getConnectedUser().lastName}) | "/>
-                            <p:commandButton rendered="#{userController.isUserConnected()}" actionListener="#{userController.deconnexion()}"  value="Logout" icon="ui-icon-extlink" />
+                            <p:commandButton style="margin-top: 0 !important" rendered="#{userController.isUserConnected()}" actionListener="#{userController.deconnexion()}"  value="Logout" icon="ui-icon-extlink" />
 
-                            <p:commandButton rendered="#{not userController.isUserConnected()}" actionListener="#{userController.goLogin}"  value="Login" icon="ui-icon-extlink" />
+                            <p:commandButton style="margin-top: 0 !important" rendered="#{not userController.isUserConnected()}" actionListener="#{userController.goLogin}"  value="Login" icon="ui-icon-extlink" />
                         </f:facet> 
                     </p:menubar>
                 </h:form>

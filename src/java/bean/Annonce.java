@@ -28,12 +28,11 @@ public class Annonce implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date startDate;
-    private int nbrDays;
+    private Date dateAnnonce;
     private String phone;
     private String mail;
     private int reduction;
-    private String state;
+    private String stateAnnonce;
 
     @ManyToOne
     private User user;
@@ -54,22 +53,6 @@ public class Annonce implements Serializable {
 
     public void setAnnonceItems(List<AnnonceItem> annonceItems) {
         this.annonceItems = annonceItems;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public int getNbrDays() {
-        return nbrDays;
-    }
-
-    public void setNbrDays(int nbrDays) {
-        this.nbrDays = nbrDays;
     }
 
     public String getPhone() {
@@ -96,12 +79,20 @@ public class Annonce implements Serializable {
         this.reduction = reduction;
     }
 
-    public String getState() {
-        return state;
+    public Date getDateAnnonce() {
+        return dateAnnonce;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setDateAnnonce(Date dateAnnonce) {
+        this.dateAnnonce = dateAnnonce;
+    }
+
+    public String getStateAnnonce() {
+        return stateAnnonce;
+    }
+
+    public void setStateAnnonce(String stateAnnonce) {
+        this.stateAnnonce = stateAnnonce;
     }
 
     public Long getId() {

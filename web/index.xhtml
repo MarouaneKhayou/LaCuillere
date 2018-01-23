@@ -1,98 +1,54 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Facelet Title</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
-    </h:head>
-    <h:body>
-        <h:form>  
-            <p:growl id="messages"/>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-            <p:menubar>
-                <p:submenu label="File" icon="ui-icon-document">
-                    <p:submenu label="New" icon="ui-icon-contact">
-                        <p:menuitem value="Project" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                    <p:menuitem value="Open" url="#" />
-                    <p:separator />
-                    <p:menuitem value="Quit" url="#" />
-                </p:submenu>
+    <ui:composition template="/template.xhtml">
 
-                <p:submenu label="Edit" icon="ui-icon-pencil">
-                    <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-                    <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
-                </p:submenu>
+        <ui:define name="title">
+            <h:outputText value="Mon profile"></h:outputText>
+        </ui:define>
 
-                <p:submenu label="Help" icon="ui-icon-help">
-                    <p:menuitem value="Contents" url="#" />
-                    <p:submenu label="Search" icon="ui-icon-search">
-                        <p:submenu label="Text">
-                            <p:menuitem value="Workspace" url="#" />
-                        </p:submenu>
-                        <p:menuitem value="File" url="#" />
-                    </p:submenu>
-                </p:submenu>
+        <ui:define name="body">
+            <style>
+                .className {
+                    text-align: right;
+                }
+            </style>
+            <h:form>
+                <p:fieldset legend="Chercher un restaurant" toggleable="true" toggleSpeed="500">
+                    <p:ajax event="toggle" />
+                    <h:panelGrid columns="10" cellpadding="5" columnClasses="className">
+                        <p:outputLabel value="Nom: " for="name" />
+                        <p:inputText id="name" required="true" value="#{restaurantController.nameRestaurant}" title="#{bundle.CreateUserTitle_firstName}" />
 
-                <p:submenu label="Actions" icon="ui-icon-gear">
-                    <p:submenu label="Ajax" icon="ui-icon-refresh">
-                        <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
-                        <p:menuitem value="Update" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
-                    </p:submenu>
-                    <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-                        <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
-                    </p:submenu>
-                </p:submenu>
+                        <p:outputLabel value="Ville: " for="city" />
+                        <p:selectOneMenu id="city" value="#{restaurantController.city}" >
+                            <f:selectItem value="#{null}" itemLabel="----"/>
+                            <f:selectItems value="#{cityController.itemsAvailableSelectOne}"
+                                           var="cityItem"
+                                           itemValue="#{cityItem}" itemLabel="#{cityItem.name}"/>
+                        </p:selectOneMenu>
 
-                <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+                        <p:outputLabel value="Catégorie: " for="categorie" />
+                        <p:selectOneMenu id="categorie" value="#{restaurantController.category}" >
+                            <f:selectItem value="#{null}" itemLabel="----"/>
+                            <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"
+                                           var="categoryItem"
+                                           itemValue="#{categoryItem}" itemLabel="#{categoryItem.name}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Date:" for="dateAnnonce" />
+                        <p:calendar id="dateAnnonce" pattern="MM/dd/yyyy" value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
 
-                <f:facet name="options">
-                    <p:inputText style="margin-right:10px" placeholder="Search"/>
-                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-                </f:facet>
-            </p:menubar>
-        </h:form>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome pages" />
-        <br />
-        <h:link outcome="/annonce/List" value="Show All Annonce Items"/>
-        <br />
-        <h:link outcome="/annonceItem/List" value="Show All AnnonceItem Items"/>
-        <br />
-        <h:link outcome="/category/List" value="Show All Category Items"/>
-        <br />
-        <h:link outcome="/city/List" value="Show All City Items"/>
-        <br />
-        <h:link outcome="/menu/List" value="Show All Menu Items"/>
-        <br />
-        <h:link outcome="/reservation/List" value="Show All Reservation Items"/>
-        <br />
-        <h:link outcome="/reservationMenuItem/List" value="Show All ReservationMenuItem Items"/>
-        <br />
-        <h:link outcome="/restaurant/List" value="Show All Restaurant Items"/>
-        <br />
-        <h:link outcome="/type/List" value="Show All Type Items"/>
-        <br />
-        <h:link outcome="/user/List" value="Show All User Items"/>
-        <br />
-        <h:link outcome="/login" value="Login"/>
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
-    </h:body>
+                        <p:commandButton style="margin-top: 0 !important;" actionListener="#{restaurantController.searchAnnonce}" value="Chercher" />
 
-
-
-
-
-
-
-
-
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 
 </html>
-

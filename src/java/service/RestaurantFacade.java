@@ -5,7 +5,10 @@
  */
 package service;
 
+import bean.City;
 import bean.Restaurant;
+import bean.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +31,44 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
     public RestaurantFacade() {
         super(Restaurant.class);
     }
-    
+
+    public boolean ifRestaurantMailExists(String email) {
+        return getRestaurantByMail(email) != null;
+    }
+
+    public Restaurant getRestaurantByMail(String email) {
+        List<Restaurant> res = em.createQuery("SELECT u FROM Restaurant u WHERE u.mail='" + email + "'").getResultList();
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res.get(0);
+        }
+    }
+
+    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city) {
+        if (!name.equals("")) {
+            res.setName(name);
+        }
+        if (!address.equals("")) {
+            res.setAddress(address);
+        }
+        if (!mail.equals("")) {
+            res.setMail(mail);
+        }
+        if (!description.equals("")) {
+            res.setDescription(description);
+        }
+        if (city != null) {
+            res.setCity(city);
+        }
+        if (!mail.equals("")) {
+            if (ifRestaurantMailExists(mail)) {
+                return -1;
+            }
+            res.setMail(mail);
+        }
+        edit(res);
+        return 1;
+    }
+
 }
