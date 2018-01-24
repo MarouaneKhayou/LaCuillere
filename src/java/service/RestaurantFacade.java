@@ -5,6 +5,7 @@
  */
 package service;
 
+import bean.Category;
 import bean.City;
 import bean.Restaurant;
 import bean.User;
@@ -45,7 +46,7 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         }
     }
 
-    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city) {
+    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city, Category categorie) {
         if (!name.equals("")) {
             res.setName(name);
         }
@@ -57,6 +58,9 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         }
         if (!description.equals("")) {
             res.setDescription(description);
+        }
+        if (categorie != null) {
+            res.setCategory(categorie);
         }
         if (city != null) {
             res.setCity(city);

@@ -38,6 +38,16 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
         super(Annonce.class);
     }
 
+    public int modifyAnnonceToCancelled(Annonce annonce) {
+        return ModifyStateAnnonceTemplate(annonce, "-1");
+    }
+
+    private int ModifyStateAnnonceTemplate(Annonce annonce, String state) {
+        annonce.setStateAnnonce(state);
+        edit(annonce);
+        return 1;
+    }
+
     public List<Annonce> getRestaurantAnnonces(Long id) {
         List<Annonce> res = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + id).getResultList();
         return res;
@@ -54,7 +64,7 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
         annonce.setAnnonceItems(new ArrayList<AnnonceItem>());
         annonce.setUser(user);
         annonce.setStateAnnonce(stateAnnonce);
-        
+
         for (int i = user.getRestaurant().getOpeningHour(); i <= user.getRestaurant().getClosingHour(); i++) {
             AnnonceItem annonceItem = new AnnonceItem();
             annonceItem.setAnnonce(annonce);
