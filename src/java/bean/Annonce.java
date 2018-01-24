@@ -8,6 +8,7 @@ package bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class Annonce implements Serializable {
 
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "annonce")
+    @OneToMany(mappedBy = "annonce", cascade = CascadeType.ALL)
     private List<AnnonceItem> annonceItems;
 
     public User getUser() {

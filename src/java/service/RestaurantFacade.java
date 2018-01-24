@@ -58,10 +58,9 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         if (!description.equals("")) {
             res.setDescription(description);
         }
-         if (city != null) {
+        if (city != null) {
             res.setCity(city);
         }
-        
         if (!mail.equals("")) {
             if (ifRestaurantMailExists(mail)) {
                 return -1;
@@ -72,4 +71,4 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         return 1;
     }
 
-}
+} 
