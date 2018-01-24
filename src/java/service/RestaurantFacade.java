@@ -51,8 +51,8 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         if (date != null) {
             req += "And exists (SELECT a FROM Annonce a WHERE a.user.restaurant.id=r.id AND a.dateAnnonce='" + date + "')";
         }
-        return em.createQuery(req).getResultList();
 
+        return em.createQuery(req).getResultList();
     }
 
 }
