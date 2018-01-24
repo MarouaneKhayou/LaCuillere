@@ -36,6 +36,15 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         super(Restaurant.class);
     }
 
+    public Restaurant getRestaurantByMail(String email) {
+        List<Restaurant> res = em.createQuery("SELECT u FROM Restaurant u WHERE u.mail='" + email + "'").getResultList();
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res.get(0);
+        }
+    }
+
     public List<Restaurant> getRestaurantByCriteres(City city, Category category, String name, String date) {
         String req = "SELECT r FROM Restaurant r WHERE 1=1 ";
 
@@ -53,6 +62,25 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         }
 
         return em.createQuery(req).getResultList();
+    }
+
+    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city, Category categorie) {
+        if (!name.equals("")) {
+            res.setName(name);
+        }
+        if (!address.equals("")) {
+            res.setAddress(address);
+        }
+        if (!mail.equals("")) {
+            res.setMail(mail);
+        }
+        if (!description.equals("")) {
+            res.setDescription(description);
+        }
+        if (categorie != null) {
+            res.setCategory(categorie);
+        }
+        return 1;
     }
 
 }
