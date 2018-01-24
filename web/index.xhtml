@@ -41,7 +41,7 @@
                                            itemValue="#{categoryItem}" itemLabel="#{categoryItem.name}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Date:" for="dateAnnonce" />
-                        <p:calendar id="dateAnnonce" pattern="MM/dd/yyyy" value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
+                        <p:calendar id="dateAnnonce" pattern="yyyy-MM-DD" value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
 
                         <p:commandButton style="margin-top: 0 !important;" actionListener="#{restaurantController.searchAnnonce}" value="Chercher" />
 
