@@ -42,7 +42,7 @@ public class RestaurantController implements Serializable {
     private Category category;
     private City city;
 
-    private void searchAnnonce() {
+    public void searchAnnonce() {
         
     }
 

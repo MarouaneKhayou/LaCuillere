@@ -15,31 +15,32 @@
 
 
             <h:form id="UserCreateForm">
-                <h:panelGrid id="grid" columns="2" cellpadding="5">
+                <h:panelGrid id="grid" columns="4" cellpadding="5">
                     <p:outputLabel value="Nom: " for="firstName" />
                     <p:inputText id="firstName" required="true" value="#{userController.selected.firstName}" title="#{bundle.CreateUserTitle_firstName}" />
+
+                    <p:outputLabel value="Mobile: " for="phone" />
+                    <p:inputText id="phone" required="true" value="#{userController.selected.phone}" title="#{bundle.CreateUserTitle_phone}" />
 
                     <p:outputLabel value="Prénom: " for="lastName" />
                     <p:inputText id="lastName" required="true" value="#{userController.selected.lastName}" title="#{bundle.CreateUserTitle_lastName}" />
 
+                    <p:outputLabel value="Mot de passe:" for="password1" />
+                    <p:password id="password1" required="true" value="#{userController.selected.password}" title="#{bundle.CreateUserTitle_password}" />
+
                     <p:outputLabel value="Email: " for="mail" />
                     <p:inputText id="mail" required="true" value="#{userController.selected.mail}" title="#{bundle.CreateUserTitle_mail}" />
 
-                    <p:outputLabel value="Mot de passe" for="password1" />
-                    <p:password id="password1" required="true" value="#{userController.selected.password}" title="#{bundle.CreateUserTitle_password}" />
-
-                    <p:outputLabel value="Répeter mot de passe" for="password2" />
+                    <p:outputLabel value="Répeter mot de passe:" for="password2" />
                     <p:password id="password2" value="#{userController.pass2}" title="#{bundle.CreateUserTitle_password}" />
 
-                    <p:outputLabel value="Mobile: " for="phone" />
-                    <p:inputText id="phone" required="true" value="#{userController.selected.phone}" title="#{bundle.CreateUserTitle_phone}" />
 
                     <p:outputLabel value="Restaurateur: " for="isRest" />
                     <p:selectBooleanCheckbox id="isRest" value="#{userController.isRestarantFormShown}">
                         <p:ajax process="@this" update="UserCreateForm" listener="#{userController.showRestarantForm()}" />
                     </p:selectBooleanCheckbox>                                    
 
-                    <p:outputLabel rendered="#{userController.isRestarantFormShown}" class="rest" value="Nom: " for="nameRe" />
+                    <p:outputLabel rendered="#{userController.isRestarantFormShown}" class="rest" value="Nom restaurant: " for="nameRe" />
                     <p:inputText rendered="#{userController.isRestarantFormShown}" id="nameRe" required="true" value="#{userController.restaurant.name}" title="#{bundle.CreateRestaurantTitle_name}" />
 
                     <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Adresse: " for="addressRe" />
@@ -57,14 +58,29 @@
                                        var="cityItem" itemLabel="#{cityItem.name}"
                                        itemValue="#{cityItem}"/>
                     </p:selectOneMenu>
-                    
+
+                    <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Catgorie: " for="category" />
+                    <p:selectOneMenu rendered="#{userController.isRestarantFormShown}" id="category" value="#{userController.restaurant.category}" >
+                        <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"
+                                       var="categoryItem" itemLabel="#{categoryItem.name}"
+                                       itemValue="#{categoryItem}"/>
+                    </p:selectOneMenu>
+
                     <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
                     <p:inputText rendered="#{userController.isRestarantFormShown}" id="descriptionRe" value="#{userController.restaurant.description}" title="#{bundle.CreateRestaurantTitle_description}" />
 
+                    <div>
+                        <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
+                        <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
+                        
+                        <p:inputText id="openingHour" value="#{sliderView.number5}" />
+                    </div>
+                    <p:slider for="openingHour" step="1" minValue="8" maxValue="23" />
                     <f:facet name="footer">
                         <p:commandButton actionListener="#{userController.create()}" id="submitButton" value="Valider" update="grid, :growld" />
+                        <p:commandButton actionListener="#{userController.goHome()}" id="annulerButton" value="Annuler" />
                     </f:facet>
-                </h:panelGrid>
+                </h:panelGrid> 
             </h:form>
         </p:panel>
     </body>
