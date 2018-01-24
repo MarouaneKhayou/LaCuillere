@@ -9,7 +9,7 @@
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
-            <h:outputText value="Mon profile"></h:outputText>
+            <h:outputText value="Acceuil"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
@@ -47,6 +47,21 @@
 
                     </h:panelGrid>
                 </p:fieldset>
+                <p:dataGrid var="restaurant" value="#{restaurantController.items}" columns="3"
+                            rows="12" paginator="true" id="restaurants" 
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <p:panel id="basic" header="#{restaurant.name}" style="margin-top:40px; display: table">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:graphicImage value="restaurant.png" width="150" height="150" />
+                            <h:outputText 
+                                value="#{restaurant.description}" />
+                        </h:panelGrid>
+                        <f:facet name="footer" >
+                            <p:commandButton value="Commander" style="margin-top: 0 !important;"/>
+                        </f:facet>
+                    </p:panel>
+                </p:dataGrid>
             </h:form>
         </ui:define>
     </ui:composition>

@@ -43,7 +43,17 @@ public class UserController implements Serializable {
     private String newPassword;
     private String repeatPassword;
 
+    private int openingHour;
+
     private User newUser;
+
+    public int getOpeningHour() {
+        return openingHour;
+    }
+
+    public void setOpeningHour(int openingHour) {
+        this.openingHour = openingHour;
+    }
 
     public boolean isUserRestaurant() {
         if (getConnectedUser() != null) {
@@ -91,6 +101,10 @@ public class UserController implements Serializable {
 
     public void goLogin() throws IOException {
         SessionUtil.goLogin();
+    }
+
+    public void goHome() throws IOException {
+        SessionUtil.goHome();
     }
 
     public void deconnexion() throws IOException {
