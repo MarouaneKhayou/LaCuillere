@@ -5,9 +5,13 @@
  */
 package service;
 
+import bean.Category;
 import bean.City;
+import bean.City_;
 import bean.Restaurant;
+import bean.Restaurant_;
 import bean.User;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,44 +36,23 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         super(Restaurant.class);
     }
 
-    public boolean ifRestaurantMailExists(String email) {
-        return getRestaurantByMail(email) != null;
-    }
+    public List<Restaurant> getRestaurantByCriteres(City city, Category category, String name, String date) {
+        String req = "SELECT r FROM Restaurant r WHERE 1=1 ";
 
-    public Restaurant getRestaurantByMail(String email) {
-        List<Restaurant> res = em.createQuery("SELECT u FROM Restaurant u WHERE u.mail='" + email + "'").getResultList();
-        if (res.isEmpty()) {
-            return null;
-        } else {
-            return res.get(0);
+        if (city != null) {
+            req += "And r.city.id = " + city.getId();
         }
-    }
-
-    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city) {
+        if (category != null) {
+            req += " And r.category.id= " + category.getId();
+        }
         if (!name.equals("")) {
-            res.setName(name);
+            req += "And r.name like  '%" + name + "%' ";
         }
-        if (!address.equals("")) {
-            res.setAddress(address);
+        if (date != null) {
+            req += "And exists (SELECT a FROM Annonce a WHERE a.user.restaurant.id=r.id AND a.dateAnnonce='" + date + "')";
         }
-        if (!mail.equals("")) {
-            res.setMail(mail);
-        }
-        if (!description.equals("")) {
-            res.setDescription(description);
-        }
-         if (city != null) {
-            res.setCity(city);
-        }
-        
-        if (!mail.equals("")) {
-            if (ifRestaurantMailExists(mail)) {
-                return -1;
-            }
-            res.setMail(mail);
-        }
-        edit(res);
-        return 1;
+        return em.createQuery(req).getResultList();
+
     }
 
 }
