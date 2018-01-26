@@ -35,7 +35,16 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
     public RestaurantFacade() {
         super(Restaurant.class);
     }
-
+    
+     public boolean ifMailExists(String email) {
+        return getRestaurantByMail(email) != null;
+    }
+    
+    /**
+     * Cette méthode permet de lister les restaurant en spécifiant l'adresse mail du restaurant
+     * @param email
+     * @return liste de restaurant
+     */
     public Restaurant getRestaurantByMail(String email) {
         List<Restaurant> res = em.createQuery("SELECT u FROM Restaurant u WHERE u.mail='" + email + "'").getResultList();
         if (res.isEmpty()) {
@@ -44,7 +53,14 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
             return res.get(0);
         }
     }
-
+    /**
+     * Cette méthode permet de donner à l'utilisateur de chercher les restaurants selon plusieurs critères:
+     * @param city: ville
+     * @param category: catégorie
+     * @param name: nome du restaurant
+     * @param date: date de resérvation souhaiter
+     * @return liste de restaurant
+     */
     public List<Restaurant> getRestaurantByCriteres(City city, Category category, String name, String date) {
         String req = "SELECT r FROM Restaurant r WHERE 1=1 ";
 
@@ -63,7 +79,17 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
 
         return em.createQuery(req).getResultList();
     }
-
+    /**
+     * Cette méthode permet de mettre à jour les informations d'un restaurant elle prend comme arguments:
+     * @param res restaurant
+     * @param name le nom
+     * @param address l'adresse 
+     * @param mail l'adresse mail
+     * @param description la description
+     * @param city la ville
+     * @param category la catégorie
+     * @return 
+     */
     public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city, Category category) {
           if (!name.equals("")) {
             res.setName(name);
