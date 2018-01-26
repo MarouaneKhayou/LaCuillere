@@ -17,7 +17,7 @@
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{typeController.itemsAvailableSelectOne}"
                                            var="typeItem"
-                                           itemValue="#{typeItem}"/>
+                                           itemValue="#{typeItem}" itemLabel="#{typeItem.name}"/>
                         </p:selectOneMenu>                       
                         <p:outputLabel value="#{bundle.EditMenuLabel_name}" for="name" />
                         <p:inputText id="name" value="#{menuController.selected.name}" title="#{bundle.EditMenuTitle_name}" />

@@ -6,6 +6,9 @@
 package service;
 
 import bean.Menu;
+import bean.Restaurant;
+import bean.Type;
+import bean.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +31,18 @@ public class MenuFacade extends AbstractFacade<Menu> {
     public MenuFacade() {
         super(Menu.class);
     }
-    
+
+    public int addMenuToRestaurant(Restaurant restaurant, String name, Double price, String produits, Type type) {
+
+        Menu menu = new Menu();
+        menu.setName(name);
+        menu.setPrice(price);
+        menu.setProduits(produits);
+        menu.setType(type);
+        menu.setRestaurant(restaurant);
+
+        create(menu);
+        return 1;
+    }
+
 }

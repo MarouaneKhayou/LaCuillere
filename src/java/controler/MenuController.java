@@ -18,6 +18,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import util.SessionUtil;
 
 @Named("menuController")
 @SessionScoped
@@ -27,6 +28,18 @@ public class MenuController implements Serializable {
     private service.MenuFacade ejbFacade;
     private List<Menu> items = null;
     private Menu selected;
+    private String price;
+
+    public String getPrice() {
+        if (this.price == null) {
+            this.price = "";
+        }
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public MenuController() {
     }
@@ -85,12 +98,23 @@ public class MenuController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != PersistAction.DELETE) {
+                if (persistAction == PersistAction.CREATE) {
+                    try {
+                        Double p = new Double(this.price);
+                        selected.setRestaurant(SessionUtil.getConnectedUser().getRestaurant());
+                        selected.setPrice(p);
+                        getFacade().create(selected);
+                        JsfUtil.addSuccessMessage(successMessage);
+                    } catch (Exception e) {
+                        JsfUtil.addErrorMessage("Valuer de prix erronée");
+                    } finally {
+                        this.price = "";
+                    }
+                } else if (persistAction != PersistAction.UPDATE) {
                     getFacade().edit(selected);
-                } else {
+                } else if (persistAction != PersistAction.DELETE) {
                     getFacade().remove(selected);
                 }
-                JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();

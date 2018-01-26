@@ -37,22 +37,40 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
     public AnnonceFacade() {
         super(Annonce.class);
     }
-
+    
+    /**
+     * Cette méthode fait appelle à une autre méthode qui permet de modifier l'état d'une annonce
+     * @param annonce
+     * @return 1 
+     */
     public int modifyAnnonceToCancelled(Annonce annonce) {
         return ModifyStateAnnonceTemplate(annonce, "-1");
     }
-
+    
     private int ModifyStateAnnonceTemplate(Annonce annonce, String state) {
         annonce.setStateAnnonce(state);
         edit(annonce);
         return 1;
     }
-
+    /**
+     * Cette méthode permet de lister les restaurant selon leur Id
+     * @param id
+     * @return liste de restaurant
+     */
     public List<Annonce> getRestaurantAnnonces(Long id) {
         List<Annonce> res = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + id).getResultList();
         return res;
     }
-
+    /**
+     * Cette méthode donne au restaurateur la possibilité d'ajouter une annonce et de créer un créneau d'horaire appelé annonceIem contenant la plage horaire d'ouverture du restaurant; elle prend comme paramètres :
+     * @param user l'utilisateur
+     * @param dateAnnonce la date de l'annonce
+     * @param phone le téléphone
+     * @param mail le mail
+     * @param stateAnnonce l'état de l'annonce
+     * @param reduction reduction 
+     * @return 1
+     */             
     public int addAnnonceByRestaurateur(User user, Date dateAnnonce, String phone, String mail, String stateAnnonce, int reduction) {
 
         Annonce annonce = new Annonce();

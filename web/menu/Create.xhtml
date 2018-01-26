@@ -19,11 +19,11 @@
                         <p:selectOneMenu id="type" value="#{menuController.selected.type}" >
                             <f:selectItems value="#{typeController.itemsAvailableSelectOne}"
                                            var="typeItem"
-                                           itemValue="#{typeItem}"/>
+                                           itemValue="#{typeItem}" itemLabel="#{typeItem.name}"/>
                         </p:selectOneMenu>
 
                         <p:outputLabel value="Prix: " for="price" />
-                        <p:inputText id="price" value="#{menuController.selected.price}" title="#{bundle.CreateMenuTitle_price}" />
+                        <p:inputText id="price" value="#{menuController.price}" title="#{bundle.CreateMenuTitle_price}" />
 
                         <p:outputLabel value="Composants" for="produits" />
                         <p:inputText id="produits" value="#{menuController.selected.produits}" title="#{bundle.CreateMenuTitle_produits}" />
