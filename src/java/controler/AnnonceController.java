@@ -6,6 +6,7 @@ import controler.util.JsfUtil.PersistAction;
 import service.AnnonceFacade;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -14,10 +15,12 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.SelectEvent;
 
 @Named("annonceController")
 @SessionScoped
@@ -27,6 +30,22 @@ public class AnnonceController implements Serializable {
     private service.AnnonceFacade ejbFacade;
     private List<Annonce> items = null;
     private Annonce selected;
+    private boolean isDateValid;
+
+    public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        JsfUtil.addSuccessMessage("eeee" + format.format(event.getObject()));
+        //facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+
+    public boolean isIsDateValid() {
+        return isDateValid;
+    }
+
+    public void setIsDateValid(boolean isDateValid) {
+        this.isDateValid = isDateValid;
+    }
 
     public AnnonceController() {
     }

@@ -24,28 +24,16 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton  editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton  editButton deleteButton"/>
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAnnonceTitle_user}"/>
+                                <h:outputText value="Date: "/>
                             </f:facet>
-                            <h:outputText value="#{item.user}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAnnonceTitle_startDate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.startDate}">
+                            <h:outputText value="#{item.dateAnnonce}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAnnonceTitle_nbrDays}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nbrDays}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -65,21 +53,8 @@
                             </f:facet>
                             <h:outputText value="#{item.reduction}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAnnonceTitle_state}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.state}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAnnonceTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{annonceController.prepareCreate}" update=":AnnonceCreateForm" oncomplete="PF('AnnonceCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":AnnonceViewForm" oncomplete="PF('AnnonceViewDialog').show()" disabled="#{empty annonceController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AnnonceEditForm" oncomplete="PF('AnnonceEditDialog').show()" disabled="#{empty annonceController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{annonceController.destroy}" update=":growl,datalist" disabled="#{empty annonceController.selected}"/>
                         </f:facet>
@@ -89,7 +64,6 @@
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
     </ui:composition>
 

@@ -19,20 +19,14 @@
                                            var="userItem"
                                            itemValue="#{userItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditAnnonceLabel_startDate}" for="startDate" />
-                        <p:calendar id="startDate" pattern="MM/dd/yyyy" value="#{annonceController.selected.startDate}" title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditAnnonceLabel_nbrDays}" for="nbrDays" />
-                        <p:inputText id="nbrDays" value="#{annonceController.selected.nbrDays}" title="#{bundle.EditAnnonceTitle_nbrDays}" />
+                        <p:outputLabel value="#{bundle.EditAnnonceLabel_startDate}" for="dateAnnonce" />
+                        <p:calendar id="dateAnnonce" pattern="MM/dd/yyyy" value="#{annonceController.selected.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditAnnonceLabel_phone}" for="phone" />
                         <p:inputText id="phone" value="#{annonceController.selected.phone}" title="#{bundle.EditAnnonceTitle_phone}" />
                         <p:outputLabel value="#{bundle.EditAnnonceLabel_mail}" for="mail" />
                         <p:inputText id="mail" value="#{annonceController.selected.mail}" title="#{bundle.EditAnnonceTitle_mail}" />
                         <p:outputLabel value="#{bundle.EditAnnonceLabel_reduction}" for="reduction" />
                         <p:inputText id="reduction" value="#{annonceController.selected.reduction}" title="#{bundle.EditAnnonceTitle_reduction}" />
-                        <p:outputLabel value="#{bundle.EditAnnonceLabel_state}" for="state" />
-                        <p:inputText id="state" value="#{annonceController.selected.state}" title="#{bundle.EditAnnonceTitle_state}" />
-                        <p:outputLabel value="#{bundle.EditAnnonceLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{annonceController.selected.id}" title="#{bundle.EditAnnonceTitle_id}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{annonceController.update}" value="#{bundle.Save}" update="display,:AnnonceListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AnnonceEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="AnnonceEditDialog.hide()"/>

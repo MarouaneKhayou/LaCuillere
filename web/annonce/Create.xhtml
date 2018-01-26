@@ -8,30 +8,27 @@
 
     <ui:composition>
 
-        <p:dialog id="AnnonceCreateDlg" widgetVar="AnnonceCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAnnonceTitle}">
+        <p:dialog id="AnnonceCreateDlg" widgetVar="AnnonceCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Création d'une nouvelle annonce">
             <h:form id="AnnonceCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{annonceController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_user}" for="user" />
-                        <p:selectOneMenu id="user" value="#{annonceController.selected.user}" >
-                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
-                                           var="userItem"
-                                           itemValue="#{userItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_startDate}" for="startDate" />
-                        <p:calendar id="startDate" pattern="MM/dd/yyyy" value="#{annonceController.selected.startDate}" title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_nbrDays}" for="nbrDays" />
-                        <p:inputText id="nbrDays" value="#{annonceController.selected.nbrDays}" title="#{bundle.CreateAnnonceTitle_nbrDays}" />
+                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_startDate}" for="dateAnnonce" />
+                        <p:calendar id="dateAnnonce" 
+                                    pattern="yyyy-MM-dd" value="#{annonceController.selected.dateAnnonce}" 
+                                    title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button">
+                            <p:ajax partialSubmit="true" event="dateSelect"
+                                    listener="#{annonceController.onDateSelect}" update=":growl"/>
+                        </p:calendar>
+
                         <p:outputLabel value="#{bundle.CreateAnnonceLabel_phone}" for="phone" />
                         <p:inputText id="phone" value="#{annonceController.selected.phone}" title="#{bundle.CreateAnnonceTitle_phone}" />
+
                         <p:outputLabel value="#{bundle.CreateAnnonceLabel_mail}" for="mail" />
                         <p:inputText id="mail" value="#{annonceController.selected.mail}" title="#{bundle.CreateAnnonceTitle_mail}" />
+
                         <p:outputLabel value="#{bundle.CreateAnnonceLabel_reduction}" for="reduction" />
                         <p:inputText id="reduction" value="#{annonceController.selected.reduction}" title="#{bundle.CreateAnnonceTitle_reduction}" />
-                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_state}" for="state" />
-                        <p:inputText id="state" value="#{annonceController.selected.state}" title="#{bundle.CreateAnnonceTitle_state}" />
-                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{annonceController.selected.id}" title="#{bundle.CreateAnnonceTitle_id}" />
+
                     </p:panelGrid>
                     <p:commandButton actionListener="#{annonceController.create}" value="#{bundle.Save}" update="display,:AnnonceListForm:datalist,:growl" oncomplete="handleSubmit(args,'AnnonceCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="AnnonceCreateDialog.hide()"/>
