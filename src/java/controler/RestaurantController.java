@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import service.UserFacade;
+import util.SessionUtil;
 
 @Named("restaurantController")
 @SessionScoped
@@ -32,18 +33,51 @@ public class RestaurantController implements Serializable {
     private service.RestaurantFacade ejbFacade;
     @EJB
     private service.UserFacade userFacade;
+    @EJB
+    private service.RestaurantFacade restaurantFacade;
     private List<Restaurant> items = null;
     private Restaurant selected;
     private User user;
     private String pass2;
+
+    private Restaurant newRestaurant;
 
     private String nameRestaurant;
     private Date dateAnnonce;
     private Category category;
     private City city;
 
+    public void updateRestaurantInformation() {
+        if (newRestaurant.getName().equals("") & newRestaurant.getPhone().equals("") & newRestaurant.getAddress().equals("")
+                & newRestaurant.getMail().equals("") & newRestaurant.getDescription().equals("")) {
+            JsfUtil.addErrorMessage("Veuillez indroduire des informations");
+        } else {
+            int res = restaurantFacade.updateRestaurantInformation(getConnectedUserRestaurant(), newRestaurant.getName(),
+                    newRestaurant.getAddress(), newRestaurant.getMail(), newRestaurant.getDescription(), newRestaurant.getPhone(), null, null);
+            if (res == 1) {
+                JsfUtil.addSuccessMessage("Information modifiées avec success");
+                newRestaurant = new Restaurant();
+            }
+        }
+    }
+
+    public Restaurant getNewRestaurant() {
+        if (newRestaurant == null) {
+            newRestaurant = new Restaurant();
+        }
+        return newRestaurant;
+    }
+
+    public void setNewRestaurant(Restaurant newRestaurant) {
+        this.newRestaurant = newRestaurant;
+    }
+
+    public Restaurant getConnectedUserRestaurant() {
+        return SessionUtil.getConnectedUser().getRestaurant();
+    }
+
     public void searchAnnonce() {
-        
+
     }
 
     public String getNameRestaurant() {
@@ -212,6 +246,7 @@ public class RestaurantController implements Serializable {
 
     public List<Restaurant> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+
     }
 
     @FacesConverter(forClass = Restaurant.class)

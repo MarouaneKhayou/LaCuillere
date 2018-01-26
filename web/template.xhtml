@@ -37,7 +37,10 @@
                         <p:menuitem value="Mon restaurant" rendered="#{userController.isUserRestaurant()}" outcome="/restaurantSpace" icon="ui-icon-home"/>
                         <f:facet name="options">
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserConnected()}" value="Bonjour Mr/Mme. 
-                                          (#{userController.getConnectedUser().firstName} #{userController.getConnectedUser().lastName}) | "/>
+                                          #{userController.getConnectedUser().firstName} #{userController.getConnectedUser().lastName} "/>
+                            <h:outputText style="font-weight: bold" rendered="#{userController.isUserRestaurant()}" value=" 
+                                          (#{restaurantController.connectedUserRestaurant.name}) | "/>
+
                             <p:commandButton style="margin-top: 0 !important" rendered="#{userController.isUserConnected()}" actionListener="#{userController.deconnexion()}"  value="Logout" icon="ui-icon-extlink" />
 
                             <p:commandButton style="margin-top: 0 !important" rendered="#{not userController.isUserConnected()}" actionListener="#{userController.goLogin}"  value="Login" icon="ui-icon-extlink" />

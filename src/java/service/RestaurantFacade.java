@@ -64,8 +64,8 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         return em.createQuery(req).getResultList();
     }
 
-    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, City city, Category category) {
-          if (!name.equals("")) {
+    public int updateRestaurantInformation(Restaurant res, String name, String address, String mail, String description, String phone, City city, Category category) {
+        if (!name.equals("")) {
             res.setName(name);
         }
         if (!address.equals("")) {
@@ -77,6 +77,9 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         if (!description.equals("")) {
             res.setDescription(description);
         }
+        if (!phone.equals("")) {
+            res.setPhone(phone);
+        }
         if (category != null) {
             res.setCategory(category);
         }
@@ -85,6 +88,6 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         }
         edit(res);
         return 1;
-}
-    
+    }
+
 }

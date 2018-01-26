@@ -18,24 +18,15 @@
                             <f:selectItems value="#{typeController.itemsAvailableSelectOne}"
                                            var="typeItem"
                                            itemValue="#{typeItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditMenuLabel_restaurant}" for="restaurant" />
-                        <p:selectOneMenu id="restaurant" value="#{menuController.selected.restaurant}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{restaurantController.itemsAvailableSelectOne}"
-                                           var="restaurantItem"
-                                           itemValue="#{restaurantItem}"/>
-                        </p:selectOneMenu>
+                        </p:selectOneMenu>                       
                         <p:outputLabel value="#{bundle.EditMenuLabel_name}" for="name" />
                         <p:inputText id="name" value="#{menuController.selected.name}" title="#{bundle.EditMenuTitle_name}" />
                         <p:outputLabel value="#{bundle.EditMenuLabel_price}" for="price" />
                         <p:inputText id="price" value="#{menuController.selected.price}" title="#{bundle.EditMenuTitle_price}" />
                         <p:outputLabel value="#{bundle.EditMenuLabel_produits}" for="produits" />
                         <p:inputText id="produits" value="#{menuController.selected.produits}" title="#{bundle.EditMenuTitle_produits}" />
-                        <p:outputLabel value="#{bundle.EditMenuLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{menuController.selected.id}" title="#{bundle.EditMenuTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{menuController.update}" value="#{bundle.Save}" update="display,:MenuListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MenuEditDialog');"/>
+                    <p:commandButton actionListener="#{menuController.update}" value="#{bundle.Save}" update="display,:tabViewContainer:MenuListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MenuEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="MenuEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
