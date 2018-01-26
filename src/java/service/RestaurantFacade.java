@@ -7,9 +7,9 @@ package service;
 
 import bean.Category;
 import bean.City;
-import bean.City_;
+import bean.City;
 import bean.Restaurant;
-import bean.Restaurant_;
+import bean.Restaurant;
 import bean.User;
 import java.util.Date;
 import java.util.List;
