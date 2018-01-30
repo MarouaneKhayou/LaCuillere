@@ -12,15 +12,6 @@
             <h:form id="AnnonceEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{annonceController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditAnnonceLabel_user}" for="user" />
-                        <p:selectOneMenu id="user" value="#{annonceController.selected.user}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
-                                           var="userItem"
-                                           itemValue="#{userItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditAnnonceLabel_startDate}" for="dateAnnonce" />
-                        <p:calendar id="dateAnnonce" pattern="MM/dd/yyyy" value="#{annonceController.selected.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditAnnonceLabel_phone}" for="phone" />
                         <p:inputText id="phone" value="#{annonceController.selected.phone}" title="#{bundle.EditAnnonceTitle_phone}" />
                         <p:outputLabel value="#{bundle.EditAnnonceLabel_mail}" for="mail" />

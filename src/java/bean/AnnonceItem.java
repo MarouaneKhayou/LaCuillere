@@ -6,6 +6,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,9 @@ public class AnnonceItem implements Serializable {
     private List<Reservation> reservations;
 
     public List<Reservation> getReservations() {
+        if (this.reservations == null) {
+            this.reservations = new ArrayList<>();
+        }
         return reservations;
     }
 

@@ -27,7 +27,7 @@
                         <p:inputText id="mail" value="#{annonceController.selected.mail}" title="#{bundle.CreateAnnonceTitle_mail}" />
 
                         <p:outputLabel value="#{bundle.CreateAnnonceLabel_reduction}" for="reduction" />
-                        <p:inputText id="reduction" value="#{annonceController.selected.reduction}" title="#{bundle.CreateAnnonceTitle_reduction}" />
+                        <p:inputText id="reduction" value="#{annonceController.reductionTemplate}" title="#{bundle.CreateAnnonceTitle_reduction}" />
 
                     </p:panelGrid>
                     <p:commandButton actionListener="#{annonceController.create}" value="#{bundle.Save}" update="display,:AnnonceListForm:datalist,:growl" oncomplete="handleSubmit(args,'AnnonceCreateDialog');"/>

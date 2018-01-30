@@ -15,7 +15,7 @@
 
         <ui:define name="body">
             <h:form id="AnnonceListForm">
-                <p:panel header="#{bundle.ListAnnonceTitle}">
+                <p:panel header="Liste des annonces">
                     <p:dataTable id="datalist" value="#{annonceController.items}" var="item"
                                  selectionMode="single" selection="#{annonceController.selected}"
                                  paginator="true"
@@ -24,7 +24,7 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton  editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton  editButton deleteButton :AnnonceListForm:annonceItemDatalist"/>
                         <p:ajax event="rowUnselect" update="createButton  editButton deleteButton"/>
 
                         <p:column>
@@ -32,7 +32,7 @@
                                 <h:outputText value="Date: "/>
                             </f:facet>
                             <h:outputText value="#{item.dateAnnonce}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="yyyy-mm-dd" />
                             </h:outputText>
                         </p:column>
                         <p:column>
@@ -51,13 +51,36 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListAnnonceTitle_reduction}"/>
                             </f:facet>
-                            <h:outputText value="#{item.reduction}"/>
+                            <h:outputText value="#{item.reduction} %"/>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{annonceController.prepareCreate}" update=":AnnonceCreateForm" oncomplete="PF('AnnonceCreateDialog').show()"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AnnonceEditForm" oncomplete="PF('AnnonceEditDialog').show()" disabled="#{empty annonceController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{annonceController.destroy}" update=":growl,datalist" disabled="#{empty annonceController.selected}"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Ajouter" actionListener="#{annonceController.prepareCreate}" update=":AnnonceCreateForm" oncomplete="PF('AnnonceCreateDialog').show()"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modifier" update=":AnnonceEditForm" oncomplete="PF('AnnonceEditDialog').show()" disabled="#{empty annonceController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Annuler" actionListener="#{annonceController.destroy}" update=":growl,datalist" disabled="#{empty annonceController.selected}"/>
                         </f:facet>
+                    </p:dataTable>
+                </p:panel>
+                <p:separator />
+                <p:panel header="Plages horaires">
+                    <p:dataTable id="annonceItemDatalist" value="#{annonceController.selected.annonceItems}" var="item"
+                                 selectionMode="single" selection="#{annonceItemController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Heure"/>
+                            </f:facet>
+                            <h:outputText value="#{item.annonceItemHour}h:00"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombres de reservations"/>
+                            </f:facet> 
+                            <h:outputText value="#{item.reservations.size()}"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>

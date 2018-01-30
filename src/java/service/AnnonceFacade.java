@@ -79,7 +79,7 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
      * @param reduction reduction
      * @return 1
      */
-    public int addAnnonceByRestaurateur(User user, Date dateAnnonce, String phone, String mail, String stateAnnonce, int reduction) {
+    public int addAnnonceByRestaurateur(User user, Date dateAnnonce, String phone, String mail, int reduction) {
 
         Annonce annonce = new Annonce();
         annonce.setDateAnnonce(dateAnnonce);
@@ -89,8 +89,7 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
         annonce.setReduction(reduction);
         annonce.setAnnonceItems(new ArrayList<AnnonceItem>());
         annonce.setUser(user);
-        annonce.setStateAnnonce(stateAnnonce);
-
+        System.out.println("aaaaaaaaaa " + user.getRestaurant().getOpeningHour());
         for (int i = user.getRestaurant().getOpeningHour(); i <= user.getRestaurant().getClosingHour(); i++) {
             AnnonceItem annonceItem = new AnnonceItem();
             annonceItem.setAnnonce(annonce);
@@ -103,7 +102,7 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
 
     public boolean IfRestaurantHasAnnonce(Restaurant restaurant, String date) {
 
-        List<Annonce> a = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + restaurant.id + " AND a.dateAnnonce='" + date + "'").getResultList();
+        List<Annonce> a = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + restaurant.id + " AND a.dateAnnonce='" + date + "' And a.stateAnnonce=0").getResultList();
         if (a.isEmpty()) {
             return false;
         }

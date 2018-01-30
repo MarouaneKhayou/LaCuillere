@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.event.SelectEvent;
+import util.SessionUtil;
 
 @Named("annonceController")
 @SessionScoped
@@ -28,15 +29,31 @@ public class AnnonceController implements Serializable {
 
     @EJB
     private service.AnnonceFacade ejbFacade;
+    private service.UserFacade userFacade;
     private List<Annonce> items = null;
     private Annonce selected;
-    private boolean isDateValid;
+    private boolean isDateValid = true;
+    private String reductionTemplate;
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        JsfUtil.addSuccessMessage("eeee" + format.format(event.getObject()));
+        if (getFacade().IfRestaurantHasAnnonce(SessionUtil.getConnectedUser().getRestaurant(), format.format(event.getObject()))) {
+            isDateValid = false;
+            JsfUtil.addErrorMessage("Annonce déjà existant pour la date : " + format.format(event.getObject()));
+        } else {
+            isDateValid = true;
+        }
+        System.out.println("ha valid : " + isDateValid);
         //facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+
+    public String getReductionTemplate() {
+        return reductionTemplate;
+    }
+
+    public void setReductionTemplate(String reductionTemplate) {
+        this.reductionTemplate = reductionTemplate;
     }
 
     public boolean isIsDateValid() {
@@ -104,12 +121,33 @@ public class AnnonceController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != PersistAction.DELETE) {
+                if (persistAction == PersistAction.CREATE) {
+                    if (!isDateValid) {
+                        JsfUtil.addErrorMessage("Veuillez changer la date de l'annonce");
+                        isDateValid = false;
+                        reductionTemplate = "";
+                    } else {
+                        try {
+                            Integer reduction = new Integer(this.reductionTemplate);
+                            if (reduction < 0 | reduction > 100) {
+                                JsfUtil.addErrorMessage("Reduction doit etre une valeur numeric comprise entre 0 et 100");
+                                reductionTemplate = "";
+                            }
+                            getFacade().addAnnonceByRestaurateur(SessionUtil.getConnectedUser(), selected.getDateAnnonce(),
+                                    selected.getPhone(), selected.getMail(), reduction.intValue());
+                            JsfUtil.addSuccessMessage("Annonce créé avec success");
+                            isDateValid = false;
+                            reductionTemplate = "";
+                        } catch (Exception e) {
+                            JsfUtil.addErrorMessage("Reduction doit etre une valeur numeric comprise entre 0 et 100");
+                            reductionTemplate = "";
+                        }
+                    }
+                } else if (persistAction == PersistAction.UPDATE) {
                     getFacade().edit(selected);
-                } else {
+                } else if (persistAction == PersistAction.DELETE) {
                     getFacade().remove(selected);
                 }
-                JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
