@@ -35,11 +35,19 @@ public class User implements Serializable {
     private String password;
     private String phone;
     private String profil;
-
+    private Integer points;
     @OneToOne
     private Restaurant restaurant;
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservations;
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
 
     public Restaurant getRestaurant() {
         return restaurant;
