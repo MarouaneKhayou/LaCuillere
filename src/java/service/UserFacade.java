@@ -19,7 +19,7 @@ import util.SessionUtil;
  */
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
-
+//ee
     @PersistenceContext(unitName = "LaCuillerePU")
     private EntityManager em;
 

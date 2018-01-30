@@ -8,6 +8,7 @@ package bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,15 +32,34 @@ public class Reservation implements Serializable {
     private Date dateReservation;
     private int nbrPlace;
     private Double totalPrice;
-    private char state;
+    private String stateReservation;
+    private boolean isBonusUsed;
+    private int nbrPointsUsed;
+    private Double totalPriceReductionBonus;
     private String comment;
 
     @ManyToOne
     private AnnonceItem annonceItem;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<ReservationMenuItem> reservationMenuItems;
+
+    public int getNbrPointsUsed() {
+        return nbrPointsUsed;
+    }
+
+    public void setNbrPointsUsed(int nbrPointsUsed) {
+        this.nbrPointsUsed = nbrPointsUsed;
+    }
+
+    public boolean isIsBonusUsed() {
+        return isBonusUsed;
+    }
+
+    public void setIsBonusUsed(boolean isBonusUsed) {
+        this.isBonusUsed = isBonusUsed;
+    }
 
     public AnnonceItem getAnnonceItem() {
         return annonceItem;
@@ -89,12 +109,20 @@ public class Reservation implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public char getState() {
-        return state;
+    public String getStateReservation() {
+        return stateReservation;
     }
 
-    public void setState(char state) {
-        this.state = state;
+    public void setStateReservation(String stateReservation) {
+        this.stateReservation = stateReservation;
+    }
+
+    public Double getTotalPriceReductionBonus() {
+        return totalPriceReductionBonus;
+    }
+
+    public void setTotalPriceReductionBonus(Double totalPriceReductionBonus) {
+        this.totalPriceReductionBonus = totalPriceReductionBonus;
     }
 
     public String getComment() {
