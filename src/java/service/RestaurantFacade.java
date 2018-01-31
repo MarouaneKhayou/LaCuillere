@@ -70,18 +70,19 @@ public class RestaurantFacade extends AbstractFacade<Restaurant> {
         String req = "SELECT r FROM Restaurant r WHERE 1=1 ";
 
         if (city != null) {
-            req += "And r.city.id = " + city.getId();
+            req += " And r.city.id = " + city.getId();
         }
         if (category != null) {
             req += " And r.category.id= " + category.getId();
         }
-        if (!name.equals("")) {
-            req += "And r.name like  '%" + name + "%' ";
+        if (name != null) {
+            if (!name.equals("")) {
+                req += " And UPPER(r.name) like  UPPER('%" + name + "%') ";
+            }
         }
         if (date != null) {
-            req += "And exists (SELECT a FROM Annonce a WHERE a.user.restaurant.id=r.id AND a.dateAnnonce='" + date + "')";
+            req += " And exists (SELECT a FROM Annonce a WHERE a.user.restaurant.id=r.id AND a.dateAnnonce='" + date + "')";
         }
-
         return em.createQuery(req).getResultList();
     }
 

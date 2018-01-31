@@ -18,12 +18,12 @@
                     text-align: right;
                 }
             </style>
-            <h:form>
+            <h:form id="formContainer">
                 <p:fieldset legend="Chercher un restaurant" toggleable="true" toggleSpeed="500">
                     <p:ajax event="toggle" />
                     <h:panelGrid columns="10" cellpadding="5" columnClasses="className">
                         <p:outputLabel value="Nom: " for="name" />
-                        <p:inputText id="name" required="true" value="#{restaurantController.nameRestaurant}" title="#{bundle.CreateUserTitle_firstName}" />
+                        <p:inputText id="name" value="#{restaurantController.nameRestaurant}" title="#{bundle.CreateUserTitle_firstName}" />
 
                         <p:outputLabel value="Ville: " for="city" />
                         <p:selectOneMenu id="city" value="#{restaurantController.city}" >
@@ -41,13 +41,12 @@
                                            itemValue="#{categoryItem}" itemLabel="#{categoryItem.name}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Date:" for="dateAnnonce" />
-                        <p:calendar id="dateAnnonce" pattern="yyyy-MM-DD" value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
-                        <p:commandButton style="margin-top: 0 !important;" icon="ui-icon-circle-zoomin" actionListener="#{restaurantController.searchAnnonce}" value="Chercher" />
-
+                        <p:calendar id="dateAnnonce" pattern="yyyy-MM-dd" value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
+                        <p:commandButton  style="margin-top: 0 !important;" actionListener="#{restaurantController.searchAnnonce}" update="restaurants" icon="ui-icon-circle-zoomin"  value="Chercher" />
                     </h:panelGrid>
                 </p:fieldset>
                 <p:dataGrid var="restaurant" value="#{restaurantController.items}" columns="3"
-                            rows="12" paginator="true" id="restaurants" 
+                            rows="12" paginator="true" id="restaurants"
                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="6,12,16">
                     <p:panel id="basic" header="#{restaurant.name}" style="margin-top:40px; display: table">
@@ -57,7 +56,7 @@
                                 value="#{restaurant.description}" />
                         </h:panelGrid>
                         <f:facet name="footer" >
-                            <p:commandButton value="Commander" style="margin-top: 0 !important;"/>
+                            <p:commandButton process="@this" action="#{restaurantController.redirectToRestaurantDetail(restaurant)}" value="Détail" style="margin-top: 0 !important;"/>
                         </f:facet>
                     </p:panel>
                 </p:dataGrid>

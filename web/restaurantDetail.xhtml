@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Restaurant"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5" columnClasses="className">
+                    <p:panel id="basic" header="#{restaurantController.selectedRestaurant.name}" footer="Movie Details" style="margin-bottom:20px">
+                        <h:panelGrid columns="1" cellpadding="4">
+                            <h:panelGrid columns="3" cellpadding="10" >
+                                <p:graphicImage value="restaurant.png" width="200" height="200" />
+                                <h:panelGrid columns="1" cellpadding="1" >
+
+                                    <h:outputText style="display:block; font-weight: bold; width: 100px !important"
+                                                  value="Ville : #{restaurantController.selectedRestaurant.city.name}" />
+                                    <h:outputText style="font-weight: bold"
+                                                  value="Catégorie : #{restaurantController.selectedRestaurant.category.name}" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <p:separator />
+                            <h:outputText style="font-weight: 400"
+                                          value="#{restaurantController.selectedRestaurant.description}" />
+
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <p:commandButton id="reserverButton" style="margin-top: 0 !important" icon="ui-icon-plus" value="Reserver"  update=":reserverForm"
+                                             actionListener="#{menuController.prepareCreate}" oncomplete="PF('reserverDlg').show()"/>
+                        </f:facet>
+                    </p:panel> 
+                    <p:panel header="Liste des menus proposés">
+                        <p:dataTable id="datalist" value="#{restaurantController.selectedRestaurant.menus}" var="item" 
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListMenuTitle_type}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.type.name}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nom"/>
+                                </f:facet>
+                                <h:outputText value="#{item.name}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Prix"/>
+                                </f:facet>
+                                <h:outputText value="#{item.price}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Composants"/>
+                                </f:facet>
+                                <h:outputText value="#{item.produits}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panel>
+                </h:panelGrid>
+            </h:form>
+            <ui:include src="reserver.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

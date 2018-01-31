@@ -6,9 +6,11 @@ import bean.Restaurant;
 import bean.User;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
+import java.io.IOException;
 import service.RestaurantFacade;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -46,6 +48,24 @@ public class RestaurantController implements Serializable {
     private Date dateAnnonce;
     private Category category;
     private City city;
+    private Restaurant selectedRestaurant;
+
+    private String nn;
+
+    public String getNn() {
+        return nn;
+    }
+
+    public void setNn(String nn) {
+        this.nn = nn;
+    }
+
+    public String redirectToRestaurantDetail(Restaurant restaurant) {
+        System.out.println(restaurant.getName());
+        selectedRestaurant = restaurant;
+        return "restaurantDetail.xhtml";
+
+    }
 
     public void updateRestaurantInformation() {
         if (newRestaurant.getName().equals("") & newRestaurant.getPhone().equals("") & newRestaurant.getAddress().equals("")
@@ -59,6 +79,22 @@ public class RestaurantController implements Serializable {
                 newRestaurant = new Restaurant();
             }
         }
+    }
+
+    public Restaurant getSelectedRestaurant() {
+        return selectedRestaurant;
+    }
+
+    public void setSelectedRestaurant(Restaurant selectedRestaurant) {
+        this.selectedRestaurant = selectedRestaurant;
+    }
+
+    public RestaurantFacade getRestaurantFacade() {
+        return restaurantFacade;
+    }
+
+    public void setRestaurantFacade(RestaurantFacade restaurantFacade) {
+        this.restaurantFacade = restaurantFacade;
     }
 
     public Restaurant getNewRestaurant() {
@@ -77,7 +113,12 @@ public class RestaurantController implements Serializable {
     }
 
     public void searchAnnonce() {
-
+        String dateAnnonceString = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (dateAnnonce != null) {
+            dateAnnonceString = format.format(dateAnnonce);
+        }
+        items = restaurantFacade.getRestaurantByCriteres(city, category, nameRestaurant, dateAnnonceString);
     }
 
     public String getNameRestaurant() {

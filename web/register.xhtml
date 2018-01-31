@@ -38,7 +38,10 @@
                     <p:outputLabel value="Restaurateur: " for="isRest" />
                     <p:selectBooleanCheckbox id="isRest" value="#{userController.isRestarantFormShown}">
                         <p:ajax process="@this" update="UserCreateForm" listener="#{userController.showRestarantForm()}" />
-                    </p:selectBooleanCheckbox>                                    
+                    </p:selectBooleanCheckbox>      
+
+                    <h:panelGroup rendered="#{userController.isRestarantFormShown}" />
+                    <h:panelGroup rendered="#{userController.isRestarantFormShown}" />
 
                     <p:outputLabel rendered="#{userController.isRestarantFormShown}" class="rest" value="Nom restaurant: " for="nameRe" />
                     <p:inputText rendered="#{userController.isRestarantFormShown}" id="nameRe" required="true" value="#{userController.restaurant.name}" title="#{bundle.CreateRestaurantTitle_name}" />
@@ -59,6 +62,9 @@
                                        itemValue="#{cityItem}"/>
                     </p:selectOneMenu>
 
+                    <h:outputLabel rendered="#{userController.isRestarantFormShown}" for="openingHour" value="Heure d'ouverture: " />
+                    <p:spinner id="openingHour" required="true" suffix="h:00" rendered="#{userController.isRestarantFormShown}" value="#{userController.openingHourTemplate}" min="8" max="23" />
+
                     <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Catgorie: " for="category" />
                     <p:selectOneMenu rendered="#{userController.isRestarantFormShown}" id="category" value="#{userController.restaurant.category}" >
                         <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"
@@ -66,16 +72,14 @@
                                        itemValue="#{categoryItem}"/>
                     </p:selectOneMenu>
 
-                    <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
-                    <p:inputText rendered="#{userController.isRestarantFormShown}" id="descriptionRe" value="#{userController.restaurant.description}" title="#{bundle.CreateRestaurantTitle_description}" />
 
-                    <div>
-                        <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
-                        <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
-                        
-                        <p:inputText id="openingHour" value="#{sliderView.number5}" />
-                    </div>
-                    <p:slider for="openingHour" step="1" minValue="8" maxValue="23" />
+                    <h:outputLabel rendered="#{userController.isRestarantFormShown}" for="clousingHour" value="Heure de fermutaire: " />
+                    <p:spinner id="clousingHour" required="true" suffix="h:00" rendered="#{userController.isRestarantFormShown}" value="#{userController.closingHourTemplate}" min="8" max="23" />
+
+                    <p:outputLabel rendered="#{userController.isRestarantFormShown}" value="Description: " for="descriptionRe" />
+                    <p:inputTextarea rows="6" cols="33" rendered="#{userController.isRestarantFormShown}" id="descriptionRe" value="#{userController.restaurant.description}" title="#{bundle.CreateRestaurantTitle_description}" />
+
+
                     <f:facet name="footer">
                         <p:commandButton actionListener="#{userController.create()}" id="submitButton" value="Valider" update="grid, :growld" />
                         <p:commandButton actionListener="#{userController.goHome()}" id="annulerButton" value="Annuler" />

@@ -43,16 +43,25 @@ public class UserController implements Serializable {
     private String newPassword;
     private String repeatPassword;
 
-    private int openingHour;
+    private String openingHourTemplate;
+    private String closingHourTemplate;
 
     private User newUser;
 
-    public int getOpeningHour() {
-        return openingHour;
+    public String getOpeningHourTemplate() {
+        return openingHourTemplate;
     }
 
-    public void setOpeningHour(int openingHour) {
-        this.openingHour = openingHour;
+    public void setOpeningHourTemplate(String openingHourTemplate) {
+        this.openingHourTemplate = openingHourTemplate;
+    }
+
+    public String getClosingHourTemplate() {
+        return closingHourTemplate;
+    }
+
+    public void setClosingHourTemplate(String closingHourTemplate) {
+        this.closingHourTemplate = closingHourTemplate;
     }
 
     public boolean isUserRestaurant() {
@@ -258,10 +267,34 @@ public class UserController implements Serializable {
     }
 
     public void create() {
-        System.out.println("nnnnnnnnnnnnnnnnnnn");
-        persist(PersistAction.CREATE, "Compte crée avec success");
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+        if (selected != null) {
+            if (pass2.equals(selected.getPassword())) {
+                if (isRestarantFormShown) {
+                    try {
+                        Integer openingHour = new Integer(this.openingHourTemplate);
+                        Integer closingHour = new Integer(this.closingHourTemplate);
+                        if (closingHour > openingHour) {
+                            restaurant.setOpeningHour(openingHour);
+                            restaurant.setClosingHour(closingHour);
+                            persist(PersistAction.CREATE, "Compte crée avec success");
+                            if (!JsfUtil.isValidationFailed()) {
+                                items = null;
+                            }
+                        } else {
+                            JsfUtil.addErrorMessage("L'heure de fermutaire doit etre supérieure à l'heure d'ouvertaire");
+                        }
+                    } catch (Exception e) {
+                        JsfUtil.addErrorMessage("Valeur erronée pour heure d'ouverture ou bien de fermutaire");
+                    }
+                } else {
+                    persist(PersistAction.CREATE, "Compte crée avec success");
+                    if (!JsfUtil.isValidationFailed()) {
+                        items = null;
+                    }
+                }
+            } else {
+                JsfUtil.addErrorMessage("Les deux mots de passe doivent se correspondre");
+            }
         }
     }
 
@@ -289,26 +322,23 @@ public class UserController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction == PersistAction.CREATE) {
-                    if (pass2.equals(selected.getPassword())) {
-                        int res = getFacade().createNormalUser(selected);
-                        if (res == -1) {
-                            JsfUtil.addErrorMessage("Email saisie déja existant!");
-                        } else if (res == 1) {
-                            if (isRestarantFormShown) {
-                                restaurantFacade.create(restaurant);
+                    int res = getFacade().createNormalUser(selected);
+                    if (res == -1) {
+                        JsfUtil.addErrorMessage("Email saisie déja existant!");
+                    } else if (res == 1) {
+                        if (isRestarantFormShown) {
+                            restaurantFacade.create(restaurant);
 
-                                selected.setProfil("R");
-                                selected.setRestaurant(restaurant);
-                                getFacade().edit(selected);
-                            }
-                            restaurant = new Restaurant();
-                            selected = new User();
-                            JsfUtil.addSuccessMessage(successMessage);
-                            util.SessionUtil.redirect("login");
+                            selected.setProfil("R");
+                            selected.setRestaurant(restaurant);
+                            getFacade().edit(selected);
                         }
-                    } else {
-                        JsfUtil.addErrorMessage("Les deux mots de passe doivent se correspondre");
+                        restaurant = new Restaurant();
+                        selected = new User();
+                        JsfUtil.addSuccessMessage(successMessage);
+                        util.SessionUtil.redirect("login");
                     }
+
                 } else if (persistAction == PersistAction.UPDATE) {
                     getFacade().edit(selected);
                 } else if (persistAction == PersistAction.DELETE) {
