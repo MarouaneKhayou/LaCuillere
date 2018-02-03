@@ -20,28 +20,23 @@
             <p:layoutUnit position="north" size="65" >
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                        <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="Annonce" outcome="/annonce/List.xhtml" />
-                            <p:menuitem value="AnnonceItem" outcome="/annonceItem/List.xhtml" />
-                            <p:menuitem value="Category" outcome="/category/List.xhtml" />
-                            <p:menuitem value="City" outcome="/city/List.xhtml" />
-                            <p:menuitem value="Menu" outcome="/menu/List.xhtml" />
-                            <p:menuitem value="Reservation" outcome="/reservation/List.xhtml" />
-                            <p:menuitem value="ReservationMenuItem" outcome="/reservationMenuItem/List.xhtml" />
-                            <p:menuitem value="Restaurant" outcome="/restaurant/List.xhtml" />
-                            <p:menuitem value="Type" outcome="/type/List.xhtml" />
-                            <p:menuitem value="User" outcome="/user/List.xhtml" />
-                        </p:submenu>   
-                        <p:menuitem value="Mon profil" rendered="#{userController.isUserConnected()}" outcome="/profil" icon="add"/>
-                        <p:menuitem value="Mon restaurant" rendered="#{userController.isUserRestaurant()}" outcome="/restaurantSpace" icon="ui-icon-home"/>
+                        <p:menuitem value="Home" rendered="#{userController.showHome()}" outcome="/index" icon="ui-icon-home"/>
+                        <p:menuitem value="Mon restaurant" rendered="#{userController.isUserRestaurant()}" outcome="/restaurant/restaurantSpace" icon="ui-icon-home"/>
+                        <p:menuitem value="Mon profil" rendered="#{userController.isUserConnected()}" outcome="/user/profil" icon="add"/>
+                        <p:menuitem value="Mon panier" rendered="#{userController.isUserNormal()}" outcome="/reservation/userPanier.xhtml" icon="add"/>
+                        <p:menuitem value="Mes reservations" rendered="#{userController.isUserNormal()}" outcome="/reservation/userReservations.xhtml" icon="add"/>
+                        
                         <p:menuitem value="Mes Annonces" rendered="#{userController.isUserRestaurant()}"  outcome="/annonce/List.xhtml" />
+                        <p:menuitem value="Les réservations" rendered="#{userController.isUserRestaurant()}"  outcome="/reservation/restaurantReservations.xhtml" />
+                        
                         <f:facet name="options">
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserConnected()}" value="Bonjour Mr/Mme. 
                                           #{userController.getConnectedUser().firstName} #{userController.getConnectedUser().lastName} "/>
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserRestaurant()}" value=" 
                                           (#{restaurantController.connectedUserRestaurant.name}) | "/>
 
+                            <h:outputText style="font-weight: bold" rendered="#{userController.isUserNormal()}" value=" 
+                                          (#{userController.getConnectedUser().points} points) | "/>
                             <p:commandButton style="margin-top: 0 !important" rendered="#{userController.isUserConnected()}" actionListener="#{userController.deconnexion()}"  value="Logout" icon="ui-icon-extlink" />
 
                             <p:commandButton style="margin-top: 0 !important" rendered="#{not userController.isUserConnected()}" actionListener="#{userController.goLogin}"  value="Login" icon="ui-icon-extlink" />

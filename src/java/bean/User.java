@@ -7,6 +7,7 @@ package bean;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,6 +41,16 @@ public class User implements Serializable {
     private Restaurant restaurant;
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservations;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+    private List<Annonce> annonces;
+
+    public List<Annonce> getAnnonces() {
+        return annonces;
+    }
+
+    public void setAnnonces(List<Annonce> annonces) {
+        this.annonces = annonces;
+    }
 
     public Integer getPoints() {
         return points;

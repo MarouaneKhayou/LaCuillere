@@ -26,6 +26,8 @@ public class MenuController implements Serializable {
 
     @EJB
     private service.MenuFacade ejbFacade;
+    @EJB
+    private service.UserFacade userFacade;
     private List<Menu> items = null;
     private Menu selected;
     private String price;

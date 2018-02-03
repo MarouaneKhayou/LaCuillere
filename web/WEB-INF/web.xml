@@ -12,11 +12,6 @@
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
         <param-value>true</param-value>
     </context-param>
-    <!--    <context-param>
-        <param-name>primefaces.THEME</param-name>
-        <param-value>excite-bike</param-value>
-        <param-value>cupertino</param-value>
-    </context-param>-->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -26,6 +21,90 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <filter>
+        <filter-name>RestaurantFilter</filter-name>
+        <filter-class>security.RestaurantFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>NormalUserFilter</filter-name>
+        <filter-class>security.NormalUserFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>UserNormalAndAnnonym</filter-name>
+        <filter-class>security.UserNormalAndAnnonym</filter-class>
+    </filter>
+    <filter>
+        <filter-name>AnnonymUserFilter</filter-name>
+        <filter-class>security.AnnonymUserFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>NormalUserAndRestaurantFilter</filter-name>
+        <filter-class>security.NormalUserAndRestaurantFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/annonce/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/reservation/restaurantReservations.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/reservation/annonceReservations.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/reservation/annonceItemReservations.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/reservation/annonceItemReservations.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/reservation/annonceItemReservations.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RestaurantFilter</filter-name>
+        <url-pattern>/faces/restaurant/restaurantSpace.xhtml</url-pattern>
+    </filter-mapping>
+    
+    
+    <filter-mapping>
+        <filter-name>NormalUserFilter</filter-name>
+        <url-pattern>/faces/reservation/userPanier.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NormalUserFilter</filter-name>
+        <url-pattern>/faces/reservation/userReservations.xhtml</url-pattern>
+    </filter-mapping>
+    
+    
+    <filter-mapping>
+        <filter-name>UserNormalAndAnnonym</filter-name>
+        <url-pattern>/faces/index.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UserNormalAndAnnonym</filter-name>
+        <url-pattern>/faces/restaurant/restaurantDetail.xhtml</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>AnnonymUserFilter</filter-name>
+        <url-pattern>/faces/user/login.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AnnonymUserFilter</filter-name>
+        <url-pattern>/faces/user/register.xhtml</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>NormalUserAndRestaurantFilter</filter-name>
+        <url-pattern>/faces/user/profil.xhtml</url-pattern>
+    </filter-mapping>
+    
     <session-config>
         <session-timeout>
             30

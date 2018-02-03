@@ -15,30 +15,30 @@
         <ui:define name="body">
             <h:form>
                 <h:panelGrid columns="2" cellpadding="5" columnClasses="className">
-                    <p:panel id="basic" header="#{restaurantController.selectedRestaurant.name}" footer="Movie Details" style="margin-bottom:20px">
+                    <p:panel id="basic" header="#{reservationController.selectedRestaurant.name}" footer="Movie Details" style="margin-bottom:20px">
                         <h:panelGrid columns="1" cellpadding="4">
                             <h:panelGrid columns="3" cellpadding="10" >
-                                <p:graphicImage value="restaurant.png" width="200" height="200" />
+                                <p:graphicImage value="../restaurant.png" width="200" height="200" />
                                 <h:panelGrid columns="1" cellpadding="1" >
 
                                     <h:outputText style="display:block; font-weight: bold; width: 100px !important"
-                                                  value="Ville : #{restaurantController.selectedRestaurant.city.name}" />
+                                                  value="Ville : #{reservationController.selectedRestaurant.city.name}" />
                                     <h:outputText style="font-weight: bold"
-                                                  value="Catégorie : #{restaurantController.selectedRestaurant.category.name}" />
+                                                  value="Catégorie : #{reservationController.selectedRestaurant.category.name}" />
                                 </h:panelGrid>
                             </h:panelGrid>
                             <p:separator />
                             <h:outputText style="font-weight: 400"
-                                          value="#{restaurantController.selectedRestaurant.description}" />
+                                          value="#{reservationController.selectedRestaurant.description}" />
 
                         </h:panelGrid>
                         <f:facet name="footer">
                             <p:commandButton id="reserverButton" style="margin-top: 0 !important" icon="ui-icon-plus" value="Reserver"  update=":reserverForm"
-                                             actionListener="#{menuController.prepareCreate}" oncomplete="PF('reserverDlg').show()"/>
+                                             actionListener="#{reservationController.prepareReservation}" oncomplete="PF('Dialog').show()"/>
                         </f:facet>
                     </p:panel> 
                     <p:panel header="Liste des menus proposés">
-                        <p:dataTable id="datalist" value="#{restaurantController.selectedRestaurant.menus}" var="item" 
+                        <p:dataTable id="datalist" value="#{reservationController.getRestaurantMenu()}" var="item" 
                                      paginator="true"
                                      rowKey="#{item.id}"
                                      rows="10"

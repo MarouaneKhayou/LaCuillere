@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListReservationTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ReservationListForm">
+                <p:panel header="Annonce de date : #{reservationController.getSelectedAnnonceDate()}">
+                    <p:dataTable id="datalist" value="#{reservationController.getAnnonceReservationsItems()}" var="item"
+                                 selectionMode="single" selection="#{reservationController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Client"/>
+                            </f:facet>
+                            <h:outputText value="#{item.user.firstName} #{item.user.lastName}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Heure de réservation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.annonceItem.annonceItemHour}h:00"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre de places"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nbrPlace}"/>
+                        </p:column> 
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Points utilisés"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nbrPointsUsed}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Etat"/>
+                            </f:facet>
+                            <h:panelGroup rendered="#{reservationController.isAnnuler(item)}" layout="block" style="width:80px;height:20px;background-color: red;font-weight: bold ;color: white;border:1px solid #000;text-align: center">
+                                Annulée
+                            </h:panelGroup> 
+                            <h:panelGroup rendered="#{reservationController.isValider(item)}" style="width:80px;height:20px;background-color: green;font-weight: bold ;color: white;border:1px solid #000;text-align: center" layout="block" >
+                                Validée
+                            </h:panelGroup> 
+                            <h:panelGroup rendered="#{reservationController.isEnCours(item)}" layout="block" style="width:80px;height:20px;background-color: deepskyblue;font-weight: bold ;color: white;border:1px solid #000;text-align: center">
+                                En cours
+                            </h:panelGroup> 
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet> 
+                            <p:commandButton id="validerButton" icon="ui-icon-plus" disabled="#{reservationController.disableValidationAndAnnulationButton(item)}" style="background: green; margin-top: 0 !important;"  value="Valider" actionListener="#{reservationController.validReservationRequest(item)}" 
+                                             update=":ReservationListForm:datalist, :menuForm, :growl">
+                                <p:confirm header="Confirmation" message="Confirmer la réservation?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash" disabled="#{reservationController.disableValidationAndAnnulationButton(item)}"  value="Annuler" actionListener="#{reservationController.annulerReservationRequest(item)}" 
+                                             update=":ReservationListForm:datalist, :menuForm, :growl" style="background: red; margin-top: 0 !important;">
+                                <p:confirm header="Confirmation" message="Annuler la réservation?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

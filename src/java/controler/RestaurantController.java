@@ -37,6 +37,9 @@ public class RestaurantController implements Serializable {
     private service.UserFacade userFacade;
     @EJB
     private service.RestaurantFacade restaurantFacade;
+    @EJB
+    private service.MenuFacade menuFacade;
+
     private List<Restaurant> items = null;
     private Restaurant selected;
     private User user;
@@ -48,7 +51,6 @@ public class RestaurantController implements Serializable {
     private Date dateAnnonce;
     private Category category;
     private City city;
-    private Restaurant selectedRestaurant;
 
     private String nn;
 
@@ -58,13 +60,6 @@ public class RestaurantController implements Serializable {
 
     public void setNn(String nn) {
         this.nn = nn;
-    }
-
-    public String redirectToRestaurantDetail(Restaurant restaurant) {
-        System.out.println(restaurant.getName());
-        selectedRestaurant = restaurant;
-        return "restaurantDetail.xhtml";
-
     }
 
     public void updateRestaurantInformation() {
@@ -79,14 +74,6 @@ public class RestaurantController implements Serializable {
                 newRestaurant = new Restaurant();
             }
         }
-    }
-
-    public Restaurant getSelectedRestaurant() {
-        return selectedRestaurant;
-    }
-
-    public void setSelectedRestaurant(Restaurant selectedRestaurant) {
-        this.selectedRestaurant = selectedRestaurant;
     }
 
     public RestaurantFacade getRestaurantFacade() {
@@ -108,8 +95,12 @@ public class RestaurantController implements Serializable {
         this.newRestaurant = newRestaurant;
     }
 
+    public List<bean.Menu> getConnectedUserRestaurantMenu() {
+        return menuFacade.getRestaurantMenus(SessionUtil.getConnectedUser().getRestaurant());
+    }
+
     public Restaurant getConnectedUserRestaurant() {
-        return SessionUtil.getConnectedUser().getRestaurant();
+        return userFacade.getRestaurantByUser(SessionUtil.getConnectedUser());
     }
 
     public void searchAnnonce() {

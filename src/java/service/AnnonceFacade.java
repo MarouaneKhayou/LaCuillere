@@ -34,6 +34,17 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
         return em;
     }
 
+    public int annulateAnnonce(Annonce annonce) {
+        if (!annonce.getStateAnnonce().equals("0")) {
+            annonce.setStateAnnonce("-1");
+            String req = "UPDATE reservation R SET R.state= '-1' WHERE R.annonceItem.annonce.id= " + annonce.getId() + " ";
+            edit(annonce);
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     public AnnonceFacade() {
         super(Annonce.class);
     }
@@ -56,13 +67,13 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
     }
 
     /**
-     * Cette méthode permet de lister les restaurant selon leur Id
+     * Cette méthode permet de lister les annonces d'un restaurant
      *
      * @param id
      * @return liste de restaurant
      */
     public List<Annonce> getRestaurantAnnonces(Long id) {
-        List<Annonce> res = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + id).getResultList();
+        List<Annonce> res = em.createQuery("SELECT a FROM Annonce a WHERE a.user.restaurant.id=" + id + " AND a.stateAnnonce='0'").getResultList();
         return res;
     }
 
@@ -109,4 +120,7 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
         return true;
     }
 
+    public Annonce getRestaurantAnnonceByDate(Restaurant restaurant, String date) {
+        return (Annonce) em.createQuery("SELECT A FROM Annonce AS A WHERE A.user.restaurant.id=" + restaurant.getId() + " AND A.dateAnnonce='" + date + "' AND A.stateAnnonce='0'").getSingleResult();
+    }
 }

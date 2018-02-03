@@ -31,20 +31,16 @@ public class Reservation implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateReservation;
     private int nbrPlace;
-    private Double totalPrice;
     private String stateReservation;
     private boolean isBonusUsed;
     private int nbrPointsUsed;
-    private Double totalPriceReductionBonus;
     private String comment;
 
     @ManyToOne
     private AnnonceItem annonceItem;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private List<ReservationMenuItem> reservationMenuItems;
-
+ 
     public int getNbrPointsUsed() {
         return nbrPointsUsed;
     }
@@ -77,14 +73,6 @@ public class Reservation implements Serializable {
         this.user = user;
     }
 
-    public List<ReservationMenuItem> getReservationMenuItems() {
-        return reservationMenuItems;
-    }
-
-    public void setReservationMenuItems(List<ReservationMenuItem> reservationMenuItems) {
-        this.reservationMenuItems = reservationMenuItems;
-    }
-
     public Date getDateReservation() {
         return dateReservation;
     }
@@ -101,28 +89,12 @@ public class Reservation implements Serializable {
         this.nbrPlace = nbrPlace;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public String getStateReservation() {
         return stateReservation;
     }
 
     public void setStateReservation(String stateReservation) {
         this.stateReservation = stateReservation;
-    }
-
-    public Double getTotalPriceReductionBonus() {
-        return totalPriceReductionBonus;
-    }
-
-    public void setTotalPriceReductionBonus(Double totalPriceReductionBonus) {
-        this.totalPriceReductionBonus = totalPriceReductionBonus;
     }
 
     public String getComment() {

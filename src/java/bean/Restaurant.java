@@ -7,6 +7,7 @@ package bean;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,8 +38,6 @@ public class Restaurant implements Serializable {
     private Integer openingHour;
     private Integer closingHour;
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<Menu> menus;
     @ManyToOne
     private City city;
     @ManyToOne
@@ -58,14 +57,6 @@ public class Restaurant implements Serializable {
 
     public void setClosingHour(Integer closingHour) {
         this.closingHour = closingHour;
-    }
-
-    public List<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(List<Menu> menus) {
-        this.menus = menus;
     }
 
     public Category getCategory() {

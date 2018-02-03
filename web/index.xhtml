@@ -56,7 +56,9 @@
                                 value="#{restaurant.description}" />
                         </h:panelGrid>
                         <f:facet name="footer" >
-                            <p:commandButton process="@this" action="#{restaurantController.redirectToRestaurantDetail(restaurant)}" value="Détail" style="margin-top: 0 !important;"/>
+                            <p:commandButton actionListener="#{reservationController.redirectToRestaurantDetail(restaurant)}" value="Détail" style="margin-top: 0 !important;">
+                                <f:param name="rest" value="restaurant" />
+                            </p:commandButton>
                         </f:facet>
                     </p:panel>
                 </p:dataGrid>

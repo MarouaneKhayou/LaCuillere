@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListReservationTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ReservationListForm">
+                <p:panel header="Mon panier">
+                    <p:dataTable id="datalist" value="#{reservationController.getPanierReservations()}" var="item"
+                                 selection="#{reservationController.selected}"
+                                 paginator="true" emptyMessage="Panier vide"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Réstaurant"/>
+                            </f:facet>
+                            <h:outputText value="#{item.annonceItem.annonce.user.restaurant.name}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date réservation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateReservation}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Heure de réservation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.annonceItem.annonceItemHour}h:00"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre de places"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nbrPlace}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Réduction"/>
+                            </f:facet>
+                            <h:outputText value="#{item.annonceItem.annonce.reduction}%"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet> 
+                            <p:commandButton id="validerButton" icon="ui-icon-plus" style="background: green; margin-top: 0 !important;"  value="Valider" actionListener="#{reservationController.validerReservationPanier(item)}" 
+                                             update=":ReservationListForm:datalist, :menuForm, :growl">
+                                <p:confirm header="Confirmation" message="Valider la réservation?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Supprimer" actionListener="#{reservationController.deleteReservationPanier(item)}" 
+                                             update=":ReservationListForm:datalist, :menuForm, :growl" style="background: red; margin-top: 0 !important;">
+                                <p:confirm header="Confirmation" message="Annuler la réservation?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

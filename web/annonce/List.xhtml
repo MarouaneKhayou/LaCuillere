@@ -16,9 +16,9 @@
         <ui:define name="body">
             <h:form id="AnnonceListForm">
                 <p:panel header="Liste des annonces">
-                    <p:dataTable id="datalist" value="#{annonceController.items}" var="item"
+                    <p:dataTable id="datalist" value="#{annonceController.getRestaurantAnnonces()}" var="item"
                                  selectionMode="single" selection="#{annonceController.selected}"
-                                 paginator="true"
+                                 paginator="true" emptyMessage="Aucune annonce disponible"
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
@@ -29,10 +29,10 @@
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Date: "/>
+                                <h:outputText value="Date "/>
                             </f:facet>
                             <h:outputText value="#{item.dateAnnonce}">
-                                <f:convertDateTime pattern="yyyy-mm-dd" />
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column>
                         <p:column>
@@ -53,18 +53,34 @@
                             </f:facet>
                             <h:outputText value="#{item.reduction} %"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombres de reservations"/>
+                            </f:facet> 
+                            <h:outputText value="#{reservationController.getAnnonceReservations(item).size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet> 
+                            <p:commandButton value="Détail" icon="ui-icon-plus" actionListener="#{reservationController.annonceDetail(item)}" style="margin-top: 0 !important;"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Annuler" actionListener="#{annonceController.annulateAnnonce(item)}" 
+                                             update=":growl,datalist" style="background: red; margin-top: 0 !important;">
+                                <p:confirm header="Confirmation" message="Annuler la l'annonce ?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="Ajouter" actionListener="#{annonceController.prepareCreate}" update=":AnnonceCreateForm" oncomplete="PF('AnnonceCreateDialog').show()"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modifier" update=":AnnonceEditForm" oncomplete="PF('AnnonceEditDialog').show()" disabled="#{empty annonceController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Annuler" actionListener="#{annonceController.destroy}" update=":growl,datalist" disabled="#{empty annonceController.selected}"/>
+
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
                 <p:separator />
                 <p:panel header="Plages horaires">
                     <p:dataTable id="annonceItemDatalist" value="#{annonceController.selected.annonceItems}" var="item"
-                                 selectionMode="single" selection="#{annonceItemController.selected}"
-                                 paginator="true"
+                                 selection="#{annonceItemController.selected}"
+                                 paginator="true" emptyMessage="Veuillez selectionner une annonce"
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
@@ -81,8 +97,18 @@
                             </f:facet> 
                             <h:outputText value="#{item.reservations.size()}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Détails réservations"/>
+                            </f:facet> 
+                            <p:commandButton icon="ui-icon-plus" actionListener="#{reservationController.annonceItemDetail(item)}"  style="margin-top: 0 !important;"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
 
             <ui:include src="Create.xhtml"/>

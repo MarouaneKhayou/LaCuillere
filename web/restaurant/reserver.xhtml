@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:composition>
+        <p:dialog id="reserverDlg" widgetVar="Dialog" modal="true" resizable="false" appendTo="@(body)" header="Réserver">
+            <h:form id="reserverForm">
+
+                <h:panelGrid id="panelContainer" columns="1" columnClasses="label, value" cellpadding="10">
+                    <p:fieldset legend="Date réservation" toggleable="false">
+                        <h:outputLabel for="dateAnnonce" value="Date: " />
+                        <p:calendar id="dateAnnonce" required="true" beforeShowDay="processDay" 
+                                    pattern="yyyy-MM-dd" value="#{reservationController.dateReservation}" 
+                                    title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button"> 
+                        </p:calendar>
+
+                    </p:fieldset>
+                    <p:fieldset legend="Horaire" toggleable="false"> 
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputLabel for="hour" value="Heure: " />
+                            <p:spinner id="hour" required="true" suffix="h:00"
+                                       value="#{reservationController.hourTemplate}" min="8" max="23" /> 
+                        </h:panelGrid>
+                    </p:fieldset>
+                    <p:fieldset legend="Nombre de personnes" toggleable="false"> 
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputLabel for="nbrPersonnes" value="Nombre de personnes: " />
+                            <p:spinner id="nbrPersonnes" required="true"
+                                       value="#{reservationController.nbrPersonTemplate}" min="0" /> 
+                        </h:panelGrid>
+                    </p:fieldset>
+                    <f:facet name="footer">
+                        <p:commandButton actionListener="#{reservationController.reserver()}" oncomplete="handleSubmit(args,'Dialog');" id="submitButton" update=":growl" value="Valider" />
+                        <p:commandButton actionListener="#{reservationController.addToPanier()}" id="addPanierButton" oncomplete="handleSubmit(args,'Dialog');" update=":growl" icon="ui-icon-plus" value="Ajouter au panier" />
+                    </f:facet>
+                </h:panelGrid>
+            </h:form>
+            <h:outputScript>
+                //<![CDATA[
+                function processDay(date) {
+                var specialDays = new Array(#{fn:join(reservationController.getAnnonceDays(), ',')});
+
+                for (var i = 0; i < specialDays.length; i++) {
+                var sDate = new Date(specialDays[i]);
+
+                var compare1 = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+                var compare2 = new Date(sDate.getFullYear(),sDate.getMonth(),sDate.getDate());
+
+                if(compare1.getTime() == compare2.getTime()) {
+                return [true, ''];
+                }
+                }
+
+                return [false, ''];
+                };
+                //]]>
+            </h:outputScript>
+        </p:dialog>
+    </ui:composition>
+</html>
+
+

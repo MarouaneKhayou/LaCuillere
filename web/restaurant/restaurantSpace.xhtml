@@ -13,12 +13,12 @@
         </ui:define>
 
         <ui:define name="body">
-            <p:tabView id="tabViewContainer" style="display: table">
+            <p:tabView id="tabViewContainer" style="display: table; margin: 0 auto;">
                 <p:tab id="pictureTabView" title="Photo du restaurant">
                     <h:form> 
-                        <p:panel id="basic"  style="margin-bottom:20px; display: table">
+                        <p:panel id="basic" >
                             <h:panelGrid columns="2" cellpadding="10">
-                                <p:graphicImage value="restaurant.png" width="150" height="150" /> 
+                                <p:graphicImage value="restaurant.png" width="200" height="200" /> 
                                 <f:facet name="footer">
                                     <p:commandButton actionListener="#{userController.changePassword()}" id="changePicture" value="Changer" update="@(form)" /> 
                                 </f:facet>
@@ -26,25 +26,25 @@
                         </p:panel>
                     </h:form>
                 </p:tab>
-                <p:tab id="informationsTabView" title="restuarantInformation">
+                <p:tab id="informationsTabView" title="Informations du restaurant">
                     <p:panel id="modifyRestaurantPanel" >
                         <h:form>
                             <p:messages />
-                            <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:panelGrid columns="2" columnClasses="label, value" style="width: 100%">
                                 <p:outputLabel value="Nom: " for="name" />
-                                <p:inputText id="name" placeholder="#{restaurantController.connectedUserRestaurant.name}" value="#{restaurantController.newRestaurant.name}" title="#{bundle.CreateUserTitle_firstName}" />
+                                <p:inputText id="name"  placeholder="#{restaurantController.connectedUserRestaurant.name}" style="width: 100%" value="#{restaurantController.newRestaurant.name}" title="#{bundle.CreateUserTitle_firstName}" />
 
                                 <p:outputLabel value="Adresse: " for="address" />
-                                <p:inputText id="address" placeholder="#{restaurantController.connectedUserRestaurant.address}" value="#{restaurantController.newRestaurant.address}" title="#{bundle.CreateUserTitle_lastName}" />
+                                <p:inputText id="address" placeholder="#{restaurantController.connectedUserRestaurant.address}" style="width: 100%" value="#{restaurantController.newRestaurant.address}" title="#{bundle.CreateUserTitle_lastName}" />
 
                                 <p:outputLabel value="Email: " for="mail" />
-                                <p:inputText id="mail" placeholder="#{restaurantController.connectedUserRestaurant.mail}" value="#{restaurantController.newRestaurant.mail}" title="#{bundle.CreateUserTitle_mail}" />
+                                <p:inputText id="mail" placeholder="#{restaurantController.connectedUserRestaurant.mail}" style="width: 100%" value="#{restaurantController.newRestaurant.mail}" title="#{bundle.CreateUserTitle_mail}" />
 
                                 <p:outputLabel value="Mobile: " for="phone" />
-                                <p:inputText id="phone" placeholder="#{restaurantController.connectedUserRestaurant.phone}" value="#{restaurantController.newRestaurant.phone}" title="#{bundle.CreateUserTitle_phone}" />
+                                <p:inputText id="phone" placeholder="#{restaurantController.connectedUserRestaurant.phone}" style="width: 100%" value="#{restaurantController.newRestaurant.phone}" title="#{bundle.CreateUserTitle_phone}" />
 
                                 <p:outputLabel value="Description: " for="description" />
-                                <p:inputText id="description" placeholder="#{restaurantController.connectedUserRestaurant.description}" value="#{restaurantController.newRestaurant.description}" title="#{bundle.CreateUserTitle_phone}" />
+                                <p:inputTextarea rows="6" cols="50" id="description" placeholder="#{restaurantController.connectedUserRestaurant.description}" value="#{restaurantController.newRestaurant.description}" title="#{bundle.CreateUserTitle_phone}" />
 
                                 <f:facet name="footer">
                                     <p:commandButton actionListener="#{restaurantController.updateRestaurantInformation()}" id="submitButton" value="Valider" update=":menuForm, @(form)" /> 
@@ -56,8 +56,8 @@
                 <p:tab title="Les menus">
                     <p:panel id="modifyRestaurantMenuPanel" >
                         <h:form id="MenuListForm">
-                            <p:panel header="#{bundle.ListMenuTitle}">
-                                <p:dataTable id="datalist" value="#{menuController.items}" var="item"
+                            <p:panel header="Liste des menus">
+                                <p:dataTable id="datalist" value="#{restaurantController.getConnectedUserRestaurantMenu()}" var="item"
                                              selectionMode="single" selection="#{menuController.selected}"
                                              paginator="true"
                                              rowKey="#{item.id}"
@@ -93,8 +93,8 @@
                                         <h:outputText value="#{item.produits}"/>
                                     </p:column>
                                     <f:facet name="footer">
-                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{menuController.prepareCreate}" update=":MenuCreateForm" oncomplete="PF('MenuCreateDialog').show()"/>
-                                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MenuEditForm" oncomplete="PF('MenuEditDialog').show()" disabled="#{empty menuController.selected}"/>
+                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="Créer" actionListener="#{menuController.prepareCreate}" update=":MenuCreateForm" oncomplete="PF('MenuCreateDialog').show()"/>
+                                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modifier" update=":MenuEditForm" oncomplete="PF('MenuEditDialog').show()" disabled="#{empty menuController.selected}"/>
                                     </f:facet>
                                 </p:dataTable>
                             </p:panel>

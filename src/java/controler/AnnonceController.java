@@ -7,6 +7,7 @@ import service.AnnonceFacade;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -34,6 +35,22 @@ public class AnnonceController implements Serializable {
     private Annonce selected;
     private boolean isDateValid = true;
     private String reductionTemplate;
+
+    public void annulateAnnonce(Annonce annonce) {
+        int res = ejbFacade.annulateAnnonce(annonce);
+        if (res == 1) {
+            JsfUtil.addSuccessMessage("Annonce annulée avec success ");
+        } else if (res == -1) {
+            JsfUtil.addSuccessMessage("Erreur veillez réessayer plus tard");
+        }
+    }
+
+    public List<Annonce> getRestaurantAnnonces() {
+        if (SessionUtil.getConnectedUser().getProfil().equals("R")) {
+            return getFacade().getRestaurantAnnonces(SessionUtil.getConnectedUser().getRestaurant().getId());
+        }
+        return new ArrayList<>();
+    }
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
