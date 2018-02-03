@@ -15,7 +15,6 @@
             <h:form id="ReservationListForm">
                 <p:panel header="Annonce de date : #{reservationController.getSelectedAnnonceDate()}">
                     <p:dataTable id="datalist" value="#{reservationController.getAnnonceReservationsItems()}" var="item"
-                                 selectionMode="single" selection="#{reservationController.selected}"
                                  paginator="true"
                                  rowKey="#{item.id}"
                                  rows="10"

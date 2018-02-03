@@ -36,7 +36,7 @@
                                           (#{restaurantController.connectedUserRestaurant.name}) | "/>
 
                             <h:outputText style="font-weight: bold" rendered="#{userController.isUserNormal()}" value=" 
-                                          (#{userController.getConnectedUser().points} points) | "/>
+                                          (#{userController.getConnectedUserPoints()} points) | "/>
                             <p:commandButton style="margin-top: 0 !important" rendered="#{userController.isUserConnected()}" actionListener="#{userController.deconnexion()}"  value="Logout" icon="ui-icon-extlink" />
 
                             <p:commandButton style="margin-top: 0 !important" rendered="#{not userController.isUserConnected()}" actionListener="#{userController.goLogin}"  value="Login" icon="ui-icon-extlink" />

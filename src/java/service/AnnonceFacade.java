@@ -35,9 +35,9 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
     }
 
     public int annulateAnnonce(Annonce annonce) {
-        if (!annonce.getStateAnnonce().equals("0")) {
+        if (annonce.getStateAnnonce().equals("0")) {
             annonce.setStateAnnonce("-1");
-            String req = "UPDATE reservation R SET R.state= '-1' WHERE R.annonceItem.annonce.id= " + annonce.getId() + " ";
+            String req = "UPDATE reservation R SET R.state= '-1' AND R.comment='Annonce annulée, merci de votre compréhension' WHERE R.annonceItem.annonce.id= " + annonce.getId() + " ";
             edit(annonce);
             return 1;
         } else {

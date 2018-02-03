@@ -34,6 +34,11 @@
                                        value="#{reservationController.nbrPersonTemplate}" min="0" /> 
                         </h:panelGrid>
                     </p:fieldset>
+                    <p:fieldset legend="Utiliser Bonus" toggleable="false"> 
+                        <h:outputText value="Bonus: " />
+                        <p:selectBooleanCheckbox disabled="#{reservationController.canUseBonus()}" 
+                                                 value="#{reservationController.useBonus}" />
+                    </p:fieldset>
                     <f:facet name="footer">
                         <p:commandButton actionListener="#{reservationController.reserver()}" oncomplete="handleSubmit(args,'Dialog');" id="submitButton" update=":growl" value="Valider" />
                         <p:commandButton actionListener="#{reservationController.addToPanier()}" id="addPanierButton" oncomplete="handleSubmit(args,'Dialog');" update=":growl" icon="ui-icon-plus" value="Ajouter au panier" />

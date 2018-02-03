@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class AnnonceItem implements Serializable {
 
     @ManyToOne
     private Annonce annonce;
-    @OneToMany(mappedBy = "annonceItem")
+    @OneToMany(mappedBy = "annonceItem", fetch = FetchType.EAGER)
     private List<Reservation> reservations;
 
     public List<Reservation> getReservations() {

@@ -34,16 +34,25 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
 
+    public int getUserPonits(User user) {
+        User u = find(user.getId());
+        if (u == null) {
+            return -1;
+        }
+        return u.getPoints();
+    }
+
     public void addBonusIfAnnulate(User user, int points) {
         int p = user.getPoints();
         p += points;
         user.setPoints(p);
         edit(user);
     }
-    
+
     public Restaurant getRestaurantByUser(User user) {
         return (Restaurant) em.createQuery("SELECT U.restaurant FROM User AS U WHERE U.id=" + user.getId()).getSingleResult();
     }
+
     public User getUserByRestaurant(Restaurant restaurant) {
         return (User) em.createQuery("SELECT U FROM User AS U WHERE U.restaurant.id=" + restaurant.getId()).getSingleResult();
     }
@@ -86,7 +95,6 @@ public class UserFacade extends AbstractFacade<User> {
         User loadedUser = getUserByMail(mail);
         if (loadedUser != null) {
             if (PasswordUtil.getHashedPassword(password).equals(loadedUser.getPassword())) {
-                SessionUtil.registerUser(loadedUser);
                 return 1;
             }
         }

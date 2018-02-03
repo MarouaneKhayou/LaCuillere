@@ -53,12 +53,20 @@ public class ReservationController implements Serializable {
     private String hourTemplate;
     private String nbrPersonTemplate;
     private Restaurant selectedRestaurant;
-    private boolean isBonusUsed;
     private List<Reservation> restaurantReservations;
     private Annonce selectedAnnonce;
     private AnnonceItem selectedAnnonceItem;
+    private boolean useBonus;
 
     List<String> dates = new ArrayList<>();
+
+    public boolean canUseBonus() {
+        if (SessionUtil.getConnectedUser() != null) {
+            int points = userFacade.getUserPonits(SessionUtil.getConnectedUser());
+            return !((points / 100) >= 1);
+        }
+        return true;
+    }
 
     public boolean disableValidationAndAnnulationButton(Reservation reservation) {
         return reservation.getStateReservation().equals("2")
@@ -91,6 +99,14 @@ public class ReservationController implements Serializable {
     public void annonceItemDetail(AnnonceItem annonceItem) throws IOException {
         selectedAnnonceItem = annonceItem;
         SessionUtil.redirect("/reservation/annonceItemReservations.xhtml");
+    }
+
+    public boolean isUseBonus() {
+        return useBonus;
+    }
+
+    public void setUseBonus(boolean useBonus) {
+        this.useBonus = useBonus;
     }
 
     public String getSelectedAnnonceDate() {
@@ -148,14 +164,6 @@ public class ReservationController implements Serializable {
     public void validerReservationPanier(Reservation reservation) {
         ejbFacade.confirmReservationFromPanier(reservation);
         JsfUtil.addSuccessMessage("Réservation validée avec success");
-    }
-
-    public boolean isIsBonusUsed() {
-        return isBonusUsed;
-    }
-
-    public void setIsBonusUsed(boolean isBonusUsed) {
-        this.isBonusUsed = isBonusUsed;
     }
 
     public void deleteReservationPanier(Reservation reservation) {
@@ -260,9 +268,9 @@ public class ReservationController implements Serializable {
                     reservation.setUser(SessionUtil.getConnectedUser());
                     int res = 0;
                     if (stateReservation.equals("0")) {
-                        res = ejbFacade.addReservationPanier(SessionUtil.getConnectedUser(), annonceItem, dateReservation, reservationNbrPerson, isBonusUsed);
+                        res = ejbFacade.addReservationPanier(SessionUtil.getConnectedUser(), annonceItem, dateReservation, reservationNbrPerson, useBonus);
                     } else {
-                        res = ejbFacade.addReservation(SessionUtil.getConnectedUser(), annonceItem, dateReservation, reservationNbrPerson, isBonusUsed);
+                        res = ejbFacade.addReservation(SessionUtil.getConnectedUser(), annonceItem, dateReservation, reservationNbrPerson, useBonus);
                     }
                     if (res == 1) {
                         JsfUtil.addSuccessMessage(message);
@@ -324,10 +332,13 @@ public class ReservationController implements Serializable {
         return ejbFacade;
     }
 
-    public void prepareReservation() {
+    public void prepareReservation() throws IOException {
         dateReservation = null;
         hourTemplate = "";
         nbrPersonTemplate = "";
+        if (SessionUtil.getConnectedUser() == null) {
+            SessionUtil.goLogin();
+        }
     }
 
     public Reservation prepareCreate() {

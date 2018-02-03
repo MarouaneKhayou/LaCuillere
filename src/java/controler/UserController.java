@@ -51,6 +51,14 @@ public class UserController implements Serializable {
 
     private User newUser;
 
+    public int getConnectedUserPoints() {
+        int points = ejbFacade.getUserPonits(SessionUtil.getConnectedUser());
+        if (points != -1) {
+            return points;
+        }
+        return 0;
+    }
+
     public String getOpeningHourTemplate() {
         return openingHourTemplate;
     }
@@ -145,26 +153,33 @@ public class UserController implements Serializable {
     public void connexion() throws IOException {
         int res = getFacade().connexion(login, password);
         if (res == 1) {
+            User connectedUser = getFacade().getUserByMail(login);
+            SessionUtil.registerUser(connectedUser);
             Reservation reservation = SessionUtil.getReservation();
             if (reservation == null) {
                 JsfUtil.addSuccessMessage("Connexion reussi!");
-                if (SessionUtil.getConnectedUser().getProfil().equals("N")) {
+                if (connectedUser.getProfil().equals("N")) {
                     SessionUtil.redirect("index");
                 } else {
                     SessionUtil.goRestaurantHome();
                 }
             } else {
                 System.out.println("ussser " + SessionUtil.getConnectedUser().getFirstName());
-                reservation.setUser(SessionUtil.getConnectedUser());
-                reservationFacade.edit(reservation);
-                if (reservation.getStateReservation().equals("0")) {
-                    JsfUtil.addSuccessMessage("Réservation ajoutée au panier");
+                if (connectedUser.getProfil().equals("N")) {
+                    reservation.setUser(connectedUser);
+                    reservationFacade.edit(reservation);
+                    if (reservation.getStateReservation().equals("0")) {
+                        JsfUtil.addSuccessMessage("Réservation ajoutée au panier");
+                        SessionUtil.removeReservation();
+                    } else if (reservation.getStateReservation().equals("1")) {
+                        JsfUtil.addSuccessMessage("Réservation effectué avec success");
+                        SessionUtil.removeReservation();
+                    }
+                    SessionUtil.redirect("index");
+                } else {
                     SessionUtil.removeReservation();
-                } else if (reservation.getStateReservation().equals("1")) {
-                    JsfUtil.addSuccessMessage("Réservation effectué avec success");
-                    SessionUtil.removeReservation();
+                    SessionUtil.goRestaurantHome();
                 }
-                SessionUtil.redirect("index");
             }
         } else {
             JsfUtil.addErrorMessage("Email ou mot de passe incorrect");
@@ -300,12 +315,6 @@ public class UserController implements Serializable {
         return selected;
     }
 
-    public String hello() {
-        System.out.println("marouane eeeeeeeeeeee");
-        return "aa";
-
-    }
-
     public void create() {
         if (selected != null) {
             if (pass2.equals(selected.getPassword())) {
@@ -377,7 +386,7 @@ public class UserController implements Serializable {
                         restaurant = new Restaurant();
                         selected = new User();
                         JsfUtil.addSuccessMessage(successMessage);
-                        util.SessionUtil.redirect("login");
+                        util.SessionUtil.redirect("/user/login.xhtml");
                     }
 
                 } else if (persistAction == PersistAction.UPDATE) {

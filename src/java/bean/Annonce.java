@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class Annonce implements Serializable {
 
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "annonce", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "annonce", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AnnonceItem> annonceItems;
 
     public User getUser() {
