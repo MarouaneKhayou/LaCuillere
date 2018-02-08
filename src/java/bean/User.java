@@ -42,7 +42,7 @@ public class User implements Serializable {
     private Restaurant restaurant;
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservations;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private List<Annonce> annonces;
 
     public List<Annonce> getAnnonces() {

@@ -1,6 +1,7 @@
 package controler;
 
 import bean.Annonce;
+import bean.AnnonceItem;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
 import service.AnnonceFacade;
@@ -30,11 +31,17 @@ public class AnnonceController implements Serializable {
 
     @EJB
     private service.AnnonceFacade ejbFacade;
+    @EJB
+    private service.AnnonceItemFacade annonceItemFacade;
     private service.UserFacade userFacade;
     private List<Annonce> items = null;
     private Annonce selected;
     private boolean isDateValid = true;
     private String reductionTemplate;
+
+    public int getAnnonceItemReservationsSize(AnnonceItem annonceItem) {
+        return annonceItemFacade.getAnnonceItemReservationsSize(annonceItem);
+    }
 
     public void annulateAnnonce(Annonce annonce) {
         int res = ejbFacade.annulateAnnonce(annonce);

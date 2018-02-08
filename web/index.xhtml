@@ -12,19 +12,20 @@
             <h:outputText value="Acceuil"></h:outputText>
         </ui:define>
 
-        <ui:define name="body">
+        <ui:define name="body" >
             <style>
                 .className {
                     text-align: right;
                 }
             </style>
             <h:form id="formContainer">
+                <p:graphicImage value="imageBackground.jpg" style="width: 100%;height: auto;" />
                 <p:fieldset legend="Chercher un restaurant" toggleable="true" toggleSpeed="500">
                     <p:ajax event="toggle" />
-                    <h:panelGrid columns="10" cellpadding="5" columnClasses="className">
+                    <h:panelGrid columns="10" cellpadding="15" columnClasses="className">
                         <p:outputLabel value="Nom: " for="name" />
                         <p:inputText id="name" value="#{restaurantController.nameRestaurant}" title="#{bundle.CreateUserTitle_firstName}" />
-
+ 
                         <p:outputLabel value="Ville: " for="city" />
                         <p:selectOneMenu id="city" value="#{restaurantController.city}" >
                             <f:selectItem value="#{null}" itemLabel="----"/>
@@ -41,19 +42,18 @@
                                            itemValue="#{categoryItem}" itemLabel="#{categoryItem.name}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Date:" for="dateAnnonce" />
-                        <p:calendar id="dateAnnonce" pattern="yyyy-MM-dd" value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
+                        <p:calendar id="dateAnnonce" pattern="yyyy-MM-dd"  value="#{restaurantController.dateAnnonce}" title="#{bundle.EditAnnonceTitle_startDate}" />
                         <p:commandButton  style="margin-top: 0 !important;" actionListener="#{restaurantController.searchAnnonce}" update="restaurants" icon="ui-icon-circle-zoomin"  value="Chercher" />
                     </h:panelGrid>
                 </p:fieldset>
-                <p:dataGrid var="restaurant" value="#{restaurantController.items}" columns="3"
+                <p:dataGrid var="restaurant" value="#{restaurantController.items}" columns="2"
                             rows="12" paginator="true" id="restaurants"
                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="6,12,16">
-                    <p:panel id="basic" header="#{restaurant.name}" style="margin-top:40px; display: table">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage value="restaurant.png" width="150" height="150" />
-                            <h:outputText 
-                                value="#{restaurant.description}" />
+                    <p:panel id="basic" header="#{restaurant.city.name} | #{restaurant.category.name}" style="margin-top:40px; display: table">
+                        <h:panelGrid columns="1" cellpadding="150" style="background-image: url('page_accueil_site.jpg')">
+                            <h:outputText style="color: white;font-weight: bold; font-size: xx-large;"  
+                                          value="#{restaurant.name}" />
                         </h:panelGrid>
                         <f:facet name="footer" >
                             <p:commandButton actionListener="#{reservationController.redirectToRestaurantDetail(restaurant)}" value="Détail" style="margin-top: 0 !important;">

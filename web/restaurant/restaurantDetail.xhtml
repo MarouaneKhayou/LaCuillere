@@ -15,28 +15,24 @@
         <ui:define name="body">
             <h:form>
                 <h:panelGrid columns="2" cellpadding="5" columnClasses="className">
-                    <p:panel id="basic" header="#{reservationController.selectedRestaurant.name}" footer="Movie Details" style="margin-bottom:20px">
-                        <h:panelGrid columns="1" cellpadding="4">
-                            <h:panelGrid columns="3" cellpadding="10" >
-                                <p:graphicImage value="../restaurant.png" width="200" height="200" />
-                                <h:panelGrid columns="1" cellpadding="1" >
-
-                                    <h:outputText style="display:block; font-weight: bold; width: 100px !important"
-                                                  value="Ville : #{reservationController.selectedRestaurant.city.name}" />
-                                    <h:outputText style="font-weight: bold"
-                                                  value="Catégorie : #{reservationController.selectedRestaurant.category.name}" />
-                                </h:panelGrid>
-                            </h:panelGrid>
-                            <p:separator />
-                            <h:outputText style="font-weight: 400"
-                                          value="#{reservationController.selectedRestaurant.description}" />
+                    <p:panel id="basic" header="#{reservationController.selectedRestaurant.name}" style="margin-top:40px; display: table">
+                        <h:panelGrid columns="1" cellpadding="150"  style="background-image: url('../page_accueil_site.jpg')">
 
                         </h:panelGrid>
-                        <f:facet name="footer">
-                            <p:commandButton id="reserverButton" style="margin-top: 0 !important" icon="ui-icon-plus" value="Reserver"  update=":reserverForm"
-                                             actionListener="#{reservationController.prepareReservation}" oncomplete="PF('Dialog').show()"/>
-                        </f:facet>
-                    </p:panel> 
+                        <p:separator />
+                        <h:outputText style="display:block; font-weight: bold;"
+                                      value="Catégorie : #{reservationController.selectedRestaurant.category.name}" />
+                        <p:separator />
+                        <h:outputText style="display:block; font-weight: bold;"
+                                      value="Ville : #{reservationController.selectedRestaurant.city.name}" />
+                        <p:separator />
+                        <h:outputText style="display:block; font-weight: bold;"
+                                      value="Adresse : #{reservationController.selectedRestaurant.address}" />
+                        <p:separator />
+                        <h:outputText style="display:block; font-weight: bold;"
+                                      value="Description : #{reservationController.selectedRestaurant.description}" />
+
+                    </p:panel>
                     <p:panel header="Liste des menus proposés">
                         <p:dataTable id="datalist" value="#{reservationController.getRestaurantMenu()}" var="item" 
                                      paginator="true"
@@ -68,7 +64,10 @@
                                 </f:facet>
                                 <h:outputText value="#{item.produits}"/>
                             </p:column>
-
+                            <f:facet name="footer">
+                                <p:commandButton id="reserverButton" style="margin-top: 0 !important" icon="ui-icon-plus" value="Reserver"  update=":reserverForm"
+                                                 actionListener="#{reservationController.prepareReservation}" oncomplete="PF('Dialog').show()"/>
+                            </f:facet>
                         </p:dataTable>
                     </p:panel>
                 </h:panelGrid>

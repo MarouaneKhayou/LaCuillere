@@ -214,12 +214,12 @@ public class ReservationController implements Serializable {
 
     public String[] getAnnonceDays() {
 
-        User user = userFacade.getUserByRestaurant(selectedRestaurant);
-        String[] result = new String[user.getAnnonces().size()];
+        List<Annonce> annonces = annonceFacade.getRestaurantAnnonces(selectedRestaurant.getId());
+        String[] result = new String[annonces.size()];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        for (int i = 0; i < user.getAnnonces().size(); i++) {
-            result[i] = String.format("'%s'", sdf.format(user.getAnnonces().get(i).getDateAnnonce()));
+        for (int i = 0; i < annonces.size(); i++) {
+            result[i] = String.format("'%s'", sdf.format(annonces.get(i).getDateAnnonce()));
         }
         return result;
     }
