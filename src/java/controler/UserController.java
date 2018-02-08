@@ -105,7 +105,7 @@ public class UserController implements Serializable {
             if (res == -1) {
                 JsfUtil.addErrorMessage("Ancien mot de passe incorrect");
             } else if (res == 1) {
-                JsfUtil.addErrorMessage("Mot de passe modifié avec success");
+                JsfUtil.addSuccessMessage("Mot de passe modifié avec success");
                 newPassword = "";
                 recentPassword = "";
                 repeatPassword = "";
