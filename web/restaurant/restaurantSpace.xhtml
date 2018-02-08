@@ -95,15 +95,22 @@
                                     <f:facet name="footer">
                                         <p:commandButton id="createButton" icon="ui-icon-plus"   value="Créer" actionListener="#{menuController.prepareCreate}" update=":MenuCreateForm" oncomplete="PF('MenuCreateDialog').show()"/>
                                         <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modifier" update=":MenuEditForm" oncomplete="PF('MenuEditDialog').show()" disabled="#{empty menuController.selected}"/>
+                                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Supprimé" actionListener="#{menuController.destroy}" update=":growl,datalist" disabled="#{empty menuController.selected}">
+                                            <p:confirm header="Confirmation" message="Supprimer le menu?" icon="ui-icon-alert" />
+                                        </p:commandButton>
                                     </f:facet>
                                 </p:dataTable>
                             </p:panel>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
                         </h:form>
                     </p:panel> 
                 </p:tab>
             </p:tabView>
-            <ui:include src="menu/Create.xhtml"/>
-            <ui:include src="menu/Edit.xhtml"/>
+            <ui:include src="../menu/Create.xhtml"/>
+            <ui:include src="../menu/Edit.xhtml"/>
         </ui:define>
     </ui:composition>
 

@@ -71,18 +71,18 @@ public class MenuController implements Serializable {
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MenuCreated"));
+        persist(PersistAction.CREATE, "Menu crée avec success");
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MenuUpdated"));
+        persist(PersistAction.UPDATE, "Menu modifié avec success");
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MenuDeleted"));
+        persist(PersistAction.DELETE, "Menu supprimé avec success");
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
@@ -112,10 +112,12 @@ public class MenuController implements Serializable {
                     } finally {
                         this.price = "";
                     }
-                } else if (persistAction != PersistAction.UPDATE) {
+                } else if (persistAction == PersistAction.UPDATE) {
                     getFacade().edit(selected);
-                } else if (persistAction != PersistAction.DELETE) {
+                    JsfUtil.addSuccessMessage(successMessage);
+                } else if (persistAction == PersistAction.DELETE) {
                     getFacade().remove(selected);
+                    JsfUtil.addSuccessMessage(successMessage);
                 }
             } catch (EJBException ex) {
                 String msg = "";
