@@ -24,7 +24,8 @@
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputLabel for="hour" value="Heure: " />
                             <p:spinner id="hour" required="true" suffix="h:00"
-                                       value="#{reservationController.hourTemplate}" min="8" max="23" /> 
+                                       value="#{reservationController.hourTemplate}" min="#{reservationController.selectedRestaurant.openingHour}"
+                                       max="#{reservationController.selectedRestaurant.closingHour}" /> 
                         </h:panelGrid>
                     </p:fieldset>
                     <p:fieldset legend="Nombre de personnes" toggleable="false"> 

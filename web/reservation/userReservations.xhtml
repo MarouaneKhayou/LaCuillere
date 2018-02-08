@@ -24,6 +24,12 @@
 
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="Restaurant"/>
+                            </f:facet>
+                            <h:outputText value="#{item.annonceItem.annonce.user.restaurant.name}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="Date réservation"/>
                             </f:facet>
                             <h:outputText value="#{item.dateReservation}">

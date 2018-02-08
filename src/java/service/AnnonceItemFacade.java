@@ -28,5 +28,9 @@ public class AnnonceItemFacade extends AbstractFacade<AnnonceItem> {
     public AnnonceItemFacade() {
         super(AnnonceItem.class);
     }
-    
+
+    public int getAnnonceItemReservationsSize(AnnonceItem annonceItem) {
+        return em.createQuery("SELECT R FROM Reservation R WHERE R.annonceItem.id=" + annonceItem.getId()).getResultList().size();
+    }
+
 }

@@ -7,7 +7,7 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <body style="background-image: url('../image.jpg')">
+    <body style="background-image: url('pagelogin.jpg')">
         <p:growl id="growld" life="3000" />
 
         <p:panel header="Créer un compte" style="display: table; margin: auto; margin-top: 2%; 
@@ -82,7 +82,7 @@
 
                     <f:facet name="footer">
                         <p:commandButton actionListener="#{userController.create()}" id="submitButton" value="Valider" update="grid, :growld" />
-                        <p:commandButton actionListener="#{userController.goHome()}" id="annulerButton" value="Annuler" />
+                        <p:commandButton actionListener="#{userController.goHome()}" id="annulerButton" value="Annuler" process="@this" />
                     </f:facet>
                 </h:panelGrid> 
             </h:form>

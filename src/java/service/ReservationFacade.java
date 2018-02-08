@@ -76,7 +76,11 @@ public class ReservationFacade extends AbstractFacade<Reservation> {
             reservation.setStateReservation("-1");
             reservation.setComment("Nous sommes dans le regré dans ne pas avoir donner suite favorable à votre demande, cependant votre bonus sera augmenter pour palier à se dérangement");
             edit(reservation);
-            userFacade.addBonusIfAnnulate(reservation.getUser(), 10);
+            int bonus = 10;
+            if (reservation.getNbrPointsUsed() > 0) {
+                bonus += reservation.getNbrPointsUsed();
+            }
+            userFacade.addBonusIfAnnulate(reservation.getUser(), bonus);
 
             return 1;
         } else {
