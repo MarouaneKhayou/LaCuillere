@@ -29,6 +29,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.SelectEvent;
 import service.AnnonceFacade;
 import service.MenuFacade;
 import util.SessionUtil;
@@ -57,8 +58,25 @@ public class ReservationController implements Serializable {
     private Annonce selectedAnnonce;
     private AnnonceItem selectedAnnonceItem;
     private boolean useBonus;
-
     List<String> dates = new ArrayList<>();
+    private Integer reduction;
+
+    public Integer getReduction() {
+        if (reduction == null) {
+            reduction = new Integer(0);
+        }
+        return reduction;
+    }
+
+    public void setReduction(Integer reduction) {
+        this.reduction = reduction;
+    }
+
+    public void showReduction(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        reduction = getFacade().getAnnonceReductionByDate(selectedRestaurant, format.format(event.getObject()));
+    }
 
     public boolean canUseBonus() {
         if (SessionUtil.getConnectedUser() != null) {
@@ -336,6 +354,7 @@ public class ReservationController implements Serializable {
         dateReservation = null;
         hourTemplate = "";
         nbrPersonTemplate = "";
+        reduction=new Integer(0);
         if (SessionUtil.getConnectedUser() == null) {
             SessionUtil.goLogin();
         }

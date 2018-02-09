@@ -87,7 +87,6 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
      * @param dateAnnonce la date de l'annonce
      * @param phone le téléphone
      * @param mail le mail
-     * @param stateAnnonce l'état de l'annonce
      * @param reduction reduction
      * @return 1
      */
@@ -101,7 +100,6 @@ public class AnnonceFacade extends AbstractFacade<Annonce> {
         annonce.setReduction(reduction);
         annonce.setAnnonceItems(new ArrayList<AnnonceItem>());
         annonce.setUser(user);
-        System.out.println("aaaaaaaaaa " + user.getRestaurant().getOpeningHour());
         for (int i = user.getRestaurant().getOpeningHour(); i <= user.getRestaurant().getClosingHour(); i++) {
             AnnonceItem annonceItem = new AnnonceItem();
             annonceItem.setAnnonce(annonce);

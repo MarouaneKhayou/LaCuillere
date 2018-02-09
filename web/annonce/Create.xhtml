@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
     <ui:composition>
 
@@ -12,12 +13,10 @@
             <h:form id="AnnonceCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{annonceController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateAnnonceLabel_startDate}" for="dateAnnonce" />
+                        <p:outputLabel value="Date: " for="dateAnnonce" />
                         <p:calendar id="dateAnnonce" 
                                     pattern="yyyy-MM-dd" value="#{annonceController.selected.dateAnnonce}" 
-                                    title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button">
-                            <p:ajax partialSubmit="true" event="dateSelect"
-                                    listener="#{annonceController.onDateSelect}" update=":growl"/>
+                                    title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button" beforeShowDay="processDay">
                         </p:calendar>
 
                         <p:outputLabel value="#{bundle.CreateAnnonceLabel_phone}" for="phone" />
@@ -34,6 +33,36 @@
                     <p:commandButton value="#{bundle.Cancel}" onclick="AnnonceCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
+            <h:outputScript>
+                //<![CDATA[
+                function processDay(date) {
+
+                var specialDays = new Array(#{fn:join(annonceController.getAnnonceDays(), ',')});
+                var compare1 = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+
+                for (var i = 0; i < specialDays.length; i++) {
+                var sDate = new Date(specialDays[i]);
+
+                var compare2 = new Date(sDate.getFullYear(),sDate.getMonth(),sDate.getDate());
+
+                if(compare1.getTime() == compare2.getTime()) { 
+                return [false, 'myCss'];
+                }
+                }
+                var currDate = new Date();
+                var currentDate = new Date(currDate.getFullYear(),currDate.getMonth(),currDate.getDate());
+
+                if(compare1.getTime() <= currentDate.getTime()){
+                return [false, 'myCss'];
+                }
+                return [true, ''];
+
+                };
+                //]]>
+            </h:outputScript>
+            <h:outputStylesheet>
+                .myCss{ content: 'red'; }
+            </h:outputStylesheet>
         </p:dialog>
 
     </ui:composition>

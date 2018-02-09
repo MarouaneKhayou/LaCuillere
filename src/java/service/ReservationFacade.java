@@ -156,4 +156,9 @@ public class ReservationFacade extends AbstractFacade<Reservation> {
         return addReservationTemplate(1, user, annonceitem, dateReservation, nbrPlace, isBonusUsed);
     }
 
+    public Integer getAnnonceReductionByDate(Restaurant restaurant, String date) {
+        Integer red = (Integer) em.createQuery("SELECT a.reduction FROM Annonce a WHERE a.user.restaurant.id=" + restaurant.id + " AND a.dateAnnonce='" + date + "'").getResultList().get(0);
+        return red;
+    }
+
 }

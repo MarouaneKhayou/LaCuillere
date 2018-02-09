@@ -14,12 +14,17 @@
                 <h:panelGrid id="panelContainer" columns="1" columnClasses="label, value" cellpadding="10">
                     <p:fieldset legend="Date réservation" toggleable="false">
                         <h:outputLabel for="dateAnnonce" value="Date: " />
-                        <p:calendar id="dateAnnonce" required="true" beforeShowDay="processDay" 
+                        <p:calendar id="dateAnnonce" required="true" beforeShowDay="processDay"  
                                     pattern="yyyy-MM-dd" value="#{reservationController.dateReservation}" 
                                     title="#{bundle.EditAnnonceTitle_startDate}"  showOn="button"> 
+                            <p:ajax partialSubmit="true" event="dateSelect"
+                                    listener="#{reservationController.showReduction}" update=":reserverForm:reduction"/>
                         </p:calendar>
-
+                            <h:outputLabel for="reduction" value="Réduction: " />
+                            <h:outputText id="reduction" style="font-weight: bold;"  
+                                          value="#{reservationController.reduction}%" />       
                     </p:fieldset>
+                    
                     <p:fieldset legend="Horaire" toggleable="false"> 
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputLabel for="hour" value="Heure: " />
@@ -57,7 +62,13 @@
                 var compare1 = new Date(date.getFullYear(),date.getMonth(),date.getDate());
                 var compare2 = new Date(sDate.getFullYear(),sDate.getMonth(),sDate.getDate());
 
+                var currDate = new Date();
+                var currentDate = new Date(currDate.getFullYear(),currDate.getMonth(),currDate.getDate());
+
                 if(compare1.getTime() == compare2.getTime()) {
+                if(compare1.getTime() <= currentDate.getTime()){
+                return [false, ''];
+                }
                 return [true, ''];
                 }
                 }

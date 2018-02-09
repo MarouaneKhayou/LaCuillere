@@ -52,6 +52,18 @@ public class AnnonceController implements Serializable {
         }
     }
 
+    public String[] getAnnonceDays() {
+
+        List<Annonce> annonces = getRestaurantAnnonces();
+        String[] result = new String[annonces.size()];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (int i = 0; i < annonces.size(); i++) {
+            result[i] = String.format("'%s'", sdf.format(annonces.get(i).getDateAnnonce()));
+        }
+        return result;
+    }
+
     public List<Annonce> getRestaurantAnnonces() {
         if (SessionUtil.getConnectedUser().getProfil().equals("R")) {
             return getFacade().getRestaurantAnnonces(SessionUtil.getConnectedUser().getRestaurant().getId());
